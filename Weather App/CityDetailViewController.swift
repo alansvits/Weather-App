@@ -30,7 +30,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         navigationController?.navigationBar.backItem?.backBarButtonItem?.tintColor = UIColor.white
         
         // Register cell classes
-        forecastCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//        forecastCollectionView.register(ForecastCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         forecastCollectionView.collectionViewLayout = columnLayout
         forecastCollectionView.contentInsetAdjustmentBehavior = .always
@@ -49,10 +49,13 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ForecastCell
         
-//        cell.backgroundColor = UIColor(hex: "1F2427")
-                cell.backgroundColor = UIColor.red
+        cell.dayForecastCell.text = "Sunday"
+        cell.precipitationForecastImage.image = UIImage(imageLiteralResourceName: "simple_cloud")
+        cell.tempForecastLabel.text = "17"
+        cell.backgroundColor = UIColor(hex: "1F2427")
+//                cell.backgroundColor = UIColor.red
 
         
         return cell
