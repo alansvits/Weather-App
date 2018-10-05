@@ -10,6 +10,8 @@
 		64893A6121654218008FAB0C /* DetailCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64893A6021654218008FAB0C /* DetailCityViewController.swift */; };
 		64893A6321655167008FAB0C /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64893A6221655167008FAB0C /* ColumnFlowLayout.swift */; };
 		64893A6521655536008FAB0C /* ForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64893A6421655536008FAB0C /* ForecastCell.swift */; };
+		64D8ABC4216671CA001540CF /* SelectCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D8ABC3216671CA001540CF /* SelectCityViewController.swift */; };
+		64D8ABC62166A96C001540CF /* cities.json in Resources */ = {isa = PBXBuildFile; fileRef = 64D8ABC52166A96C001540CF /* cities.json */; };
 		64F39B692163C9EC0075E1AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F39B682163C9EC0075E1AE /* AppDelegate.swift */; };
 		64F39B6E2163C9EC0075E1AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64F39B6C2163C9EC0075E1AE /* Main.storyboard */; };
 		64F39B712163C9EC0075E1AE /* Weather_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 64F39B6F2163C9EC0075E1AE /* Weather_App.xcdatamodeld */; };
@@ -19,12 +21,15 @@
 		64F39B832163F8A40075E1AE /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F39B812163F8A40075E1AE /* CityCell.swift */; };
 		64F39B86216402FD0075E1AE /* CityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F39B85216402FD0075E1AE /* CityDetailViewController.swift */; };
 		64F5C08A216519D800CF0CF7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F5C089216519D800CF0CF7 /* UIColor+Extension.swift */; };
+		64FAA1EF2167B43E0004B8EF /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FAA1EE2167B43E0004B8EF /* Settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		64893A6021654218008FAB0C /* DetailCityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCityViewController.swift; sourceTree = "<group>"; };
 		64893A6221655167008FAB0C /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		64893A6421655536008FAB0C /* ForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCell.swift; sourceTree = "<group>"; };
+		64D8ABC3216671CA001540CF /* SelectCityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCityViewController.swift; sourceTree = "<group>"; };
+		64D8ABC52166A96C001540CF /* cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cities.json; sourceTree = "<group>"; };
 		64F39B652163C9EC0075E1AE /* Weather App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Weather App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64F39B682163C9EC0075E1AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		64F39B6D2163C9EC0075E1AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -36,6 +41,7 @@
 		64F39B812163F8A40075E1AE /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		64F39B85216402FD0075E1AE /* CityDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDetailViewController.swift; sourceTree = "<group>"; };
 		64F5C089216519D800CF0CF7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		64FAA1EE2167B43E0004B8EF /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +77,8 @@
 				64F39B682163C9EC0075E1AE /* AppDelegate.swift */,
 				64F39B7D2163D2580075E1AE /* CitiesViewController.swift */,
 				64F39B85216402FD0075E1AE /* CityDetailViewController.swift */,
+				64D8ABC3216671CA001540CF /* SelectCityViewController.swift */,
+				64D8ABC52166A96C001540CF /* cities.json */,
 				64F39B812163F8A40075E1AE /* CityCell.swift */,
 				64F39B6C2163C9EC0075E1AE /* Main.storyboard */,
 				64F39B722163C9EE0075E1AE /* Assets.xcassets */,
@@ -81,6 +89,7 @@
 				64893A6021654218008FAB0C /* DetailCityViewController.swift */,
 				64893A6221655167008FAB0C /* ColumnFlowLayout.swift */,
 				64893A6421655536008FAB0C /* ForecastCell.swift */,
+				64FAA1EE2167B43E0004B8EF /* Settings.swift */,
 			);
 			path = "Weather App";
 			sourceTree = "<group>";
@@ -143,6 +152,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64D8ABC62166A96C001540CF /* cities.json in Resources */,
 				64F39B762163C9EE0075E1AE /* LaunchScreen.storyboard in Resources */,
 				64F39B732163C9EE0075E1AE /* Assets.xcassets in Resources */,
 				64F39B6E2163C9EC0075E1AE /* Main.storyboard in Resources */,
@@ -157,6 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64893A6121654218008FAB0C /* DetailCityViewController.swift in Sources */,
+				64D8ABC4216671CA001540CF /* SelectCityViewController.swift in Sources */,
 				64F39B7E2163D2580075E1AE /* CitiesViewController.swift in Sources */,
 				64F39B86216402FD0075E1AE /* CityDetailViewController.swift in Sources */,
 				64F39B712163C9EC0075E1AE /* Weather_App.xcdatamodeld in Sources */,
@@ -164,6 +175,7 @@
 				64F5C08A216519D800CF0CF7 /* UIColor+Extension.swift in Sources */,
 				64893A6321655167008FAB0C /* ColumnFlowLayout.swift in Sources */,
 				64F39B832163F8A40075E1AE /* CityCell.swift in Sources */,
+				64FAA1EF2167B43E0004B8EF /* Settings.swift in Sources */,
 				64F39B692163C9EC0075E1AE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -20,7 +20,7 @@ class CitiesViewController: UICollectionViewController {
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
 
         // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
     }
 
@@ -38,8 +38,11 @@ class CitiesViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CityCell
+        
+        cell.cityLabel.text = "Londom"
+        cell.precipitationImageView.image = UIImage(imageLiteralResourceName: "sun_main_screen")
+        cell.temperatureLabel.text = "22/16 C"
         cell.backgroundColor = UIColor(hex: "1F2427")
     
         return cell
