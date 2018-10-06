@@ -31,20 +31,32 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
         
-        //                tableView.tableHeaderView = searchController.searchBar
+//                        tableView.tableHeaderView = searchController.searchBar
         navigationItem.searchController = searchController
+        //Set up searchbar
+        searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.barTintColor = UIColor(hex: "191D20")
         let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideSearchBar?.backgroundColor = UIColor(hex: "1F2427")
         
         generateWordsDict()
         generateWordsDictFromFiltered()
+        
+        //Show search bar
+        if #available(iOS 11.0, *) {
+            navigationItem.hidesSearchBarWhenScrolling = false
+        }
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+ 
     }
     
     // MARK: - Table View
     func numberOfSections(in tableView: UITableView) -> Int {
         if isFiltering() {
-            print("filteredCitiesSection \(filteredCitiesSection.count)")
             return filteredCitiesSection.count
         } else {
             return citiesSection.count
@@ -53,7 +65,6 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
-            print("numberOfRowsInSection \(filteredCitiesDictionary[filteredCitiesSection[section]])")
 
             let sectionName = searchController.searchBar.text?.lowercased().first
             let stringKey = String(sectionName!)
@@ -80,7 +91,6 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectCityCell", for: indexPath)
         
         if isFiltering() {
-            print("cellForRowAt \(filteredCitiesDictionary[filteredCitiesSection[indexPath.section]]![indexPath.row])")
 
             let sectionName = searchController.searchBar.text?.lowercased().first
 
