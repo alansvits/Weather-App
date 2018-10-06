@@ -44,7 +44,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     // MARK: - Table View
     func numberOfSections(in tableView: UITableView) -> Int {
         if isFiltering() {
-
+            print("filteredCitiesSection \(filteredCitiesSection.count)")
             return filteredCitiesSection.count
         } else {
             return citiesSection.count
@@ -53,15 +53,18 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
-            
+            print("numberOfRowsInSection \(filteredCitiesDictionary[filteredCitiesSection[section]])")
+
             let sectionName = searchController.searchBar.text?.lowercased().first
             let stringKey = String(sectionName!)
-            
-            
+
+
             let cityKey = filteredCitiesDictionary[stringKey]
+
             if let cityValue = cityKey {
                 return cityValue.count
             }
+
         } else {
             
             let cityKey = citiesSection[section]
@@ -77,12 +80,14 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectCityCell", for: indexPath)
         
         if isFiltering() {
-            
+            print("cellForRowAt \(filteredCitiesDictionary[filteredCitiesSection[indexPath.section]]![indexPath.row])")
+
             let sectionName = searchController.searchBar.text?.lowercased().first
 
             let stringKey = String(sectionName!)
-            
+
             cell.textLabel?.text = filteredCitiesDictionary[stringKey]![indexPath.row]
+
         } else {
             cell.textLabel?.text = citiesDictionary[citiesSection[indexPath.section]]![indexPath.row]
         }
@@ -115,7 +120,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         for city in cities {
             
             let key = "\(city[city.startIndex])"
-            
+            print("key \(key)")
             let lower = key.lowercased()
             
             if var cityValue = citiesDictionary[lower] {
@@ -137,8 +142,11 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
             let lower = key.lowercased()
             
             if var cityValue = filteredCitiesDictionary[lower] {
-                cityValue.append(city)
-                filteredCitiesDictionary[lower] = cityValue
+                
+                if !cityValue.contains(city) {
+                    cityValue.append(city)
+                    filteredCitiesDictionary[lower] = cityValue
+                }
             } else {
                 filteredCitiesDictionary[lower] = [city]
             }
@@ -163,7 +171,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
             var itemArray = filteredCitiesDictionary[stringKey]!
             
             itemArray.removeAll { (string) -> Bool in
-                return !string.hasPrefix(stringKey)
+                return !string.hasPrefix(searchText)
             }
             
             filteredCitiesDictionary[stringKey] = itemArray
@@ -180,7 +188,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         
         filteredCities = cities.filter({( city : String) -> Bool in
-            return city.lowercased().hasPrefix(searchText.lowercased())
+                return city.lowercased().hasPrefix(searchText.lowercased())
         })
         
         generateWordsDictFromFiltered()
