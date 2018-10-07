@@ -25,7 +25,7 @@ class Settings {
     static let shared = Settings()
     
     //For network request
-    let WEATHER_URL = "api.openweathermap.org/data/2.5/forecast"
+    let WEATHER_FORECAST_URL = "api.openweathermap.org/data/2.5/forecast"
     let APP_ID = "9d59a0fe0e5a65adc3f17a60262bd1b4"
     
     var cityNames: [String]?
@@ -40,7 +40,7 @@ class Settings {
             do {
                 let data = try Data(contentsOf: url)
                 let jsonObj = try JSON(data: data)
-                for (index,subJson):(String, JSON) in jsonObj {
+                for (_,subJson):(String, JSON) in jsonObj {
                     citiesArray.append(subJson["name"].stringValue)
                 }
             } catch let error {
