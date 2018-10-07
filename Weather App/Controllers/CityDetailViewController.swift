@@ -34,6 +34,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
 
         forecastCollectionView.collectionViewLayout = columnLayout
         forecastCollectionView.contentInsetAdjustmentBehavior = .always
+        
     }
     
     // MARK: UICollectionViewDataSource

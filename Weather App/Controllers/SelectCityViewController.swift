@@ -31,7 +31,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
         
-//                        tableView.tableHeaderView = searchController.searchBar
+//                                tableView.tableHeaderView = searchController.searchBar
         navigationItem.searchController = searchController
         //Set up searchbar
         searchController.hidesNavigationBarDuringPresentation = false
@@ -42,16 +42,27 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         generateWordsDict()
         generateWordsDictFromFiltered()
         
+        print(navigationItem.searchController?.searchBar.frame.size.height)
+        print(tableView.frame)
+
+//        tableView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: (navigationItem.searchController?.searchBar.frame.size.height)!).isActive = true
+        
         //Show search bar
         if #available(iOS 11.0, *) {
             navigationItem.hidesSearchBarWhenScrolling = false
         }
         
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
+        }
+        
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
- 
+        
     }
     
     // MARK: - Table View
@@ -65,17 +76,17 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
-
+            
             let sectionName = searchController.searchBar.text?.lowercased().first
             let stringKey = String(sectionName!)
-
-
+            
+            
             let cityKey = filteredCitiesDictionary[stringKey]
-
+            
             if let cityValue = cityKey {
                 return cityValue.count
             }
-
+            
         } else {
             
             let cityKey = citiesSection[section]
@@ -91,13 +102,13 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectCityCell", for: indexPath)
         
         if isFiltering() {
-
+            
             let sectionName = searchController.searchBar.text?.lowercased().first
-
+            
             let stringKey = String(sectionName!)
-
+            
             cell.textLabel?.text = filteredCitiesDictionary[stringKey]![indexPath.row]
-
+            
         } else {
             cell.textLabel?.text = citiesDictionary[citiesSection[indexPath.section]]![indexPath.row]
         }
@@ -125,12 +136,18 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCell = tableView.cellForRow(at: indexPath)
+        performSegue(withIdentifier: "ShowCityWeather", sender: nil)
+        searchController.searchBar.resignFirstResponder()
+        //        selectedCell?.contentView.backgroundColor
+    }
+    
     //MARK: - Helper methods
     func generateWordsDict() {
         for city in cities {
             
             let key = "\(city[city.startIndex])"
-            print("key \(key)")
             let lower = key.lowercased()
             
             if var cityValue = citiesDictionary[lower] {
@@ -190,6 +207,11 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    //MARK: Networking
+    
+
+    
+    //MARK: Searchbar helper methods
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
@@ -198,7 +220,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         
         filteredCities = cities.filter({( city : String) -> Bool in
-                return city.lowercased().hasPrefix(searchText.lowercased())
+            return city.lowercased().hasPrefix(searchText.lowercased())
         })
         
         generateWordsDictFromFiltered()
@@ -211,6 +233,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
 }
+
 
 extension SelectCityViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate

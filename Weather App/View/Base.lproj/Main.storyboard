@@ -268,14 +268,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Wf9-2d-u6K">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Wf9-2d-u6K">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.098787583410739899" green="0.11345205456018448" blue="0.12676206231117249" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="separatorColor" red="0.12156862745098039" green="0.14117647058823529" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="0.12156862745098039" green="0.14117647058823529" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SelectCityCell" textLabel="hhz-GX-HXG" style="IBUITableViewCellStyleDefault" id="0XE-5B-H1N">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SelectCityCell" textLabel="hhz-GX-HXG" style="IBUITableViewCellStyleDefault" id="0XE-5B-H1N">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0XE-5B-H1N" id="xhS-xq-RD4">
@@ -301,7 +300,13 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="0.098039215686274508" green="0.11372549019607843" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Wf9-2d-u6K" firstAttribute="leading" secondItem="M3q-xa-4oR" secondAttribute="leading" id="Fgb-Ec-aTM"/>
+                            <constraint firstItem="Wf9-2d-u6K" firstAttribute="top" secondItem="M3q-xa-4oR" secondAttribute="top" id="IOD-r3-EYB"/>
+                            <constraint firstItem="M3q-xa-4oR" firstAttribute="trailing" secondItem="Wf9-2d-u6K" secondAttribute="trailing" id="SQB-0Y-M48"/>
+                            <constraint firstItem="M3q-xa-4oR" firstAttribute="bottom" secondItem="Wf9-2d-u6K" secondAttribute="bottom" id="vBo-UX-MP7"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="M3q-xa-4oR"/>
                     </view>
                     <navigationItem key="navigationItem" title="Select City" id="V6a-My-74l">
@@ -312,6 +317,7 @@
                     <connections>
                         <outlet property="locationItem" destination="eiJ-dC-Lhk" id="5cr-XV-AkC"/>
                         <outlet property="tableView" destination="Wf9-2d-u6K" id="N6F-Ka-5dk"/>
+                        <segue destination="abe-KH-aS2" kind="show" identifier="ShowCityWeather" id="wdp-qe-ja2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JCT-E1-r0T" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -351,4 +357,7 @@
         <image name="sun_main_screen" width="43" height="43"/>
         <image name="umbrella" width="30" height="34"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ooc-P9-b3g"/>
+    </inferredMetricsTieBreakers>
 </document>
