@@ -222,8 +222,8 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="simple_cloud" translatesAutoresizingMaskIntoConstraints="NO" id="jVy-sQ-AnQ">
-                                                    <rect key="frame" x="30" y="0.0" width="34" height="35"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="sun_small" translatesAutoresizingMaskIntoConstraints="NO" id="jVy-sQ-AnQ">
+                                                    <rect key="frame" x="31.666666666666671" y="0.0" width="31" height="35"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
@@ -352,9 +352,9 @@
         <image name="Geo mark" width="18" height="25"/>
         <image name="Wind_icon" width="38" height="35"/>
         <image name="big-water-drop" width="24" height="34"/>
-        <image name="cloud_sun_big" width="228" height="151"/>
-        <image name="simple_cloud" width="34" height="21"/>
+        <image name="cloud_sun_big" width="269" height="192"/>
         <image name="sun_main_screen" width="43" height="43"/>
+        <image name="sun_small" width="31" height="31"/>
         <image name="umbrella" width="30" height="34"/>
     </resources>
     <inferredMetricsTieBreakers>

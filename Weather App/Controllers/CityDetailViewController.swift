@@ -53,7 +53,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ForecastCell
         
         cell.dayForecastCell.text = "Sunday"
-        cell.precipitationForecastImage.image = UIImage(imageLiteralResourceName: "simple_cloud")
+        cell.precipitationForecastImage.image = UIImage(imageLiteralResourceName: "sun_small")
         cell.tempForecastLabel.text = "17"
         cell.backgroundColor = UIColor(hex: "1F2427")
 //                cell.backgroundColor = UIColor.red

@@ -138,9 +138,30 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCell = tableView.cellForRow(at: indexPath)
-        performSegue(withIdentifier: "ShowCityWeather", sender: nil)
+        
+//        print(selectedCell?.textLabel?.text)
+        
+        let city = selectedCell?.textLabel?.text!
+        
+        let params : [String : String] = ["q" : city!, "appid" : Settings.shared.APP_ID]
+        
+        let JSONWeather = Networking.getWeatherJSON(url: Settings.shared.WEATHER_FORECAST_URL, parameters: params)
+        
+        DispatchQueue.global().async {
+            print(JSONWeather)
+        }
+//        let JSONparser = WeatherForecast(JSONWeather!)
+//        print(JSONparser.getCityName(JSONWeather!))
+        
+        
+        
+        
+//        performSegue(withIdentifier: "ShowCityWeather", sender: nil)
         searchController.searchBar.resignFirstResponder()
         //        selectedCell?.contentView.backgroundColor
+        
+        
+        
     }
     
     //MARK: - Helper methods

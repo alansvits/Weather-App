@@ -31,14 +31,14 @@ class WeatherForecast {
         self.jsonToParse = json
     }
     
-    func getCityName(_ json: JSON) -> String? {
+    static func getCityName(_ json: JSON) -> String? {
         let cityName: String?
         
         cityName = json["city"]["name"].stringValue
         return cityName
     }
     
-    func getJSONObjList(_ json: JSON) -> [JSON] {
+    static func getJSONObjList(_ json: JSON) -> [JSON] {
         
         let list: Array<JSON> = json["list"].arrayValue
         
@@ -47,7 +47,7 @@ class WeatherForecast {
     }
     
     //Take json array of 3 hour forecasts and transform it to dictionary [ day : [3hour forecast]]
-    func getSeparateForecastListFrom(_ list: [JSON]) -> [String: [JSON]] {
+    static func getSeparateForecastListFrom(_ list: [JSON]) -> [String: [JSON]] {
         
         var dayOfMonth = 0
         
@@ -80,7 +80,7 @@ class WeatherForecast {
         
     }
     
-    func getRawWeatherDataFrom(_ list: [String: [JSON]]) -> [rawWeatherData] {
+    static func getRawWeatherDataFrom(_ list: [String: [JSON]]) -> [rawWeatherData] {
         
         var rawWeatherDataList = [rawWeatherData]()
         var rawData = rawWeatherData()
@@ -94,23 +94,24 @@ class WeatherForecast {
 
                 if key != item.key {
                     rawWeatherDataList.append(rawData)
+                    rawData = rawWeatherData()
                     key = item.key
                     
-                    rawData.date = json["dt_txt"].stringValue.getShortStringDate().getDateFromShort()
+                    rawData.date = json["dt_txt"].stringValue.getDate()
                     rawData.humidityArray.append(json["main"]["humidity"].intValue)
                     rawData.pressureArray.append(Int(json["main"]["pressure"].floatValue))
-                    rawData.skyConditionArraay.append(json["main"][0]["id"].intValue)
+                    rawData.skyConditionArraay.append(json["weather"][0]["id"].intValue)
                     rawData.tempArray.append(Int(json["main"]["temp"].floatValue))
-                    rawData.windArray.append(json["main"]["wind"].floatValue)
+                    rawData.windArray.append(json["wind"]["speed"].floatValue)
                     
                 } else {
 
-                    rawData.date = json["dt_txt"].stringValue.getShortStringDate().getDateFromShort()
+                    rawData.date = json["dt_txt"].stringValue.getDate()
                     rawData.humidityArray.append(json["main"]["humidity"].intValue)
                     rawData.pressureArray.append(Int(json["main"]["pressure"].floatValue))
-                    rawData.skyConditionArraay.append(json["main"][0]["id"].intValue)
+                    rawData.skyConditionArraay.append(json["weather"][0]["id"].intValue)
                     rawData.tempArray.append(Int(json["main"]["temp"].floatValue))
-                    rawData.windArray.append(json["main"]["wind"].floatValue)
+                    rawData.windArray.append(json["wind"]["speed"].floatValue)
                     
                 }
                 
