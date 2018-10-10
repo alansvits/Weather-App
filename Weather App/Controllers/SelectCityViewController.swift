@@ -7,12 +7,23 @@
 //
 
 import UIKit
+import SwiftyJSON
+import Alamofire
+
+protocol SelectCityViewControllerDelegate: class {
+    func selectCityViewController(_ controller: SelectCityViewController, didSelect city: String)
+}
 
 class SelectCityViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var locationItem: UIBarButtonItem!
+        
+    var weatherJSON = JSON()
+    var rawForecasts = [rawWeatherData]()
+    var forecasts = [WeatherData]()
+    var selectedCity = ""
     
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -136,31 +147,71 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        
         let selectedCell = tableView.cellForRow(at: indexPath)
         
-//        print(selectedCell?.textLabel?.text)
-        
         let city = selectedCell?.textLabel?.text!
+        selectedCity = city!
         
         let params : [String : String] = ["q" : city!, "appid" : Settings.shared.APP_ID]
-        
-        let JSONWeather = Networking.getWeatherJSON(url: Settings.shared.WEATHER_FORECAST_URL, parameters: params)
-        
-        DispatchQueue.global().async {
-            print(JSONWeather)
+
+        self.getWeatherJSON(url: Settings.shared.WEATHER_FORECAST_URL, parameters: params) { (json) -> (Void) in
+            
+            self.weatherJSON = json
+            
+//            DispatchQueue.main.async {
+//                self.navigationItem.title = WeatherForecast.getCityName(json)
+//            }
+            
+            let list = WeatherForecast.getJSONObjList(json)
+            let dict = WeatherForecast.getSeparateForecastListFrom(list)
+            self.rawForecasts = WeatherForecast.getRawWeatherDataFrom(dict)
+            self.forecasts = WeatherForecast.getForecast(self.rawForecasts)
+            let temp = self.forecasts.ordered()
+            for item in temp {
+//                print(item.date)
+            }
+//            print(self.forecasts)
+//            print(self.rawForecasts)
+//            print(self.weatherJSON)
         }
-//        let JSONparser = WeatherForecast(JSONWeather!)
-//        print(JSONparser.getCityName(JSONWeather!))
+            
+//            print("JSON IS \(self.weatherJSON)")
+
+
         
+        return indexPath
         
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let selectedCell = tableView.cellForRow(at: indexPath)
         
-//        performSegue(withIdentifier: "ShowCityWeather", sender: nil)
+        let city = selectedCell?.textLabel?.text!
+                
+        let params : [String : String] = ["q" : city!, "appid" : Settings.shared.APP_ID]
+        
+//        print("JSON from did IS \(self.weatherJSON)")
+
+        
+//        let JSONWeather = Networking.getWeatherJSON(url: Settings.shared.WEATHER_FORECAST_URL, parameters: params)
+        
+        performSegue(withIdentifier: "ShowCityWeather", sender: nil)
         searchController.searchBar.resignFirstResponder()
         //        selectedCell?.contentView.backgroundColor
         
         
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //TODO: - TODO
+        if segue.identifier == "ShowCityWeather" {
+            let controller = segue.destination as! CityDetailViewController
+            controller.getDetailWeather(selectedCity) 
+        }
         
     }
     
@@ -215,7 +266,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
                 }
             }
             generateWordsDictFromFiltered()
-            
+            //FIXME: NON alphabet input crash
             var itemArray = filteredCitiesDictionary[stringKey]!
             
             itemArray.removeAll { (string) -> Bool in
@@ -261,4 +312,41 @@ extension SelectCityViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
+}
+
+extension SelectCityViewController {
+    
+    func getWeatherJSON(url: String, parameters: [String: String], complition: @escaping (JSON) -> (Void)) -> JSON? {
+        
+        var weatherJSON: JSON?
+        
+        Alamofire.request(url, method: .get, parameters: parameters).responseJSON { (response) in
+            
+            if response.result.isSuccess {
+                
+                print("Success! Got the weather data")
+                weatherJSON = JSON(response.result.value!)
+                //
+                //                let cityName = WeatherForecast.getCityName(weatherJSON!)
+                //                print(cityName)
+                //                let list = WeatherForecast.getJSONObjList(weatherJSON!)
+                //                //                print("list is \(list)")
+                //                let dict = WeatherForecast.getSeparateForecastListFrom(list)
+                ////                print("dict is \(dict)")
+                //                let rawWeatherArr = WeatherForecast.getRawWeatherDataFrom(dict)
+                //                print(rawWeatherArr)
+                //                print(weatherJSON)
+                complition(weatherJSON!)
+            } else {
+                
+                print("Error \(String(describing: response.result.error))")
+                
+            }
+            
+        }
+        
+        return weatherJSON
+        
+    }
+    
 }

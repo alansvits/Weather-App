@@ -17,6 +17,7 @@ class WeatherData {
         self.wind = Int(rawData.windArray.sum() / Float(rawData.windArray.count))
         self.conditionCode = rawData.skyConditionArraay.randomElement()!
         self.pressure = rawData.pressureArray.randomElement()!
+        self.date = rawData.date
     }
     var cityName: String = ""
     var temp: Int = 0
@@ -105,4 +106,28 @@ class WeatherData {
     }
 
     
+}
+
+extension WeatherData: CustomStringConvertible {
+    
+    
+    
+}
+
+extension CustomStringConvertible {
+    var description: String {
+        var description: String = "\(type(of: self))("
+        
+        let selfMirror = Mirror(reflecting: self)
+        
+        for child in selfMirror.children {
+            if let propertyName = child.label {
+                description += "\(propertyName): \(child.value), "
+            }
+        }
+        
+        description += "<\(Unmanaged.passUnretained(self as AnyObject).toOpaque())>)"
+        
+        return description
+    }
 }

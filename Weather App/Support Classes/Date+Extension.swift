@@ -14,4 +14,8 @@ extension Date {
         return Calendar.current.dateComponents([.weekday], from: self).weekday
     }
     
+    func day() -> Int? {
+        return Calendar.current.dateComponents([.day], from: self).day
+    }
+    
 }
