@@ -94,10 +94,10 @@
                         <userGuides>
                             <userLayoutGuide location="383" affinity="minY"/>
                             <userLayoutGuide location="63" affinity="minX"/>
-                            <userLayoutGuide location="354" affinity="minX"/>
+                            <userLayoutGuide location="356" affinity="minX"/>
                             <userLayoutGuide location="158" affinity="minX"/>
                             <userLayoutGuide location="256" affinity="minX"/>
-                            <userLayoutGuide location="207" affinity="minX"/>
+                            <userLayoutGuide location="206" affinity="minX"/>
                             <userLayoutGuide location="581" affinity="minY"/>
                         </userGuides>
                         <subviews>
@@ -253,7 +253,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="bigWeatherUIImage" destination="l8P-7r-yn7" id="YIH-o3-fHF"/>
                         <outlet property="forecastCollectionView" destination="RXx-Ig-q0f" id="duF-MC-gft"/>
+                        <outlet property="humidityPersentageLabel" destination="K1I-7K-Trn" id="b1l-BQ-aVD"/>
+                        <outlet property="tempetureUILabel" destination="t6J-Rl-O9e" id="DpY-Eh-9t6"/>
+                        <outlet property="windSpeedLabel" destination="S29-MK-Go9" id="hep-Li-gzq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gBN-uX-noK" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -13,4 +13,11 @@ class ForecastCell: UICollectionViewCell {
     @IBOutlet weak var precipitationForecastImage: UIImageView!
     @IBOutlet weak var tempForecastLabel: UILabel!
     @IBOutlet weak var dayForecastCell: UILabel!
+    
+    override var isSelected: Bool {
+        didSet {
+            backgroundColor = isSelected ? UIColor(hex: "F58223") : UIColor(hex: "1F2427")
+        }
+    }
+    
 }

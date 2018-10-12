@@ -15,7 +15,16 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     
     @IBOutlet weak var forecastCollectionView: UICollectionView!
     
+    @IBOutlet weak var bigWeatherUIImage: UIImageView!
+    @IBOutlet weak var tempetureUILabel: UILabel!
+    
+    @IBOutlet weak var windSpeedLabel: UILabel!
+    @IBOutlet weak var humidityPersentageLabel: UILabel!
+    
     var fiveDaysForecast: [WeatherData]?
+    
+    //Weather the first cell should be selected
+    var isSelected = false
     
     let reuseIdentifier = "ForecastCell"
     
@@ -36,6 +45,10 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
 
         forecastCollectionView.collectionViewLayout = columnLayout
         forecastCollectionView.contentInsetAdjustmentBehavior = .always
+        
+        forecastCollectionView.allowsMultipleSelection = false
+        
+
         
     }
     
@@ -66,6 +79,8 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             cell.precipitationForecastImage.image = UIImage(imageLiteralResourceName: forecast[indexPath.row].getSmallWeatherIcon())
             cell.tempForecastLabel.text = String(forecast[indexPath.row].temp)
             
+            forecastCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: [])
+            
         }
         
 //        cell.dayForecastCell.text = "Sunday"
@@ -77,6 +92,24 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         
         return cell
     }
+    
+    //MARK: - UICollectionViewDelegate METHODS
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if let forecast = fiveDaysForecast {
+            
+            let oneDayForecast = forecast[indexPath.row]
+            bigWeatherUIImage.image = UIImage(imageLiteralResourceName: oneDayForecast.getBigWeatherIcon())
+            tempetureUILabel.text = "\(oneDayForecast.temp)" + " \u{2103}"
+            windSpeedLabel.text = "\(oneDayForecast.wind)" + " m/s"
+            humidityPersentageLabel.text = "\(oneDayForecast.humidity)" + " %"
+            
+        }
+        
+    }
+    
+    
     //TODO: - METHODS TO GET JSON AND OTHER-
     func getDetailWeather(_ city: String) {
         
@@ -98,6 +131,8 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             let rawWeatherDataList = self.getRawWeatherDataFrom(separetedFor5DaysList)
             let forecast = self.getForecast(rawWeatherDataList).ordered()
             self.updateUIWith(forecast)
+            self.updateDetailWeatherUI(forecast, at: nil)
+//            self.selectFirstCell()
             
             for item in forecast {
                 print(item)
@@ -142,6 +177,43 @@ extension CityDetailViewController {
         
         fiveDaysForecast = forecast
         forecastCollectionView.reloadData()
+        
+    }
+    
+    //Select first cell after transition from select city VC
+    func selectFirstCell() {
+        
+        self.forecastCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: [])
+        forecastCollectionView.reloadData()
+        
+    }
+    
+    //Update detail weather ui
+    func updateDetailWeatherUI(_ forecast: [WeatherData]?, at indexPath: IndexPath?) {
+        
+        if let forecast = forecast {
+            
+            if let index = indexPath?.row {
+                let oneDayForecast = forecast[index]
+                bigWeatherUIImage.image = UIImage(imageLiteralResourceName: oneDayForecast.getBigWeatherIcon())
+                tempetureUILabel.text = "\(oneDayForecast.temp)" + " \u{2103}"
+                windSpeedLabel.text = "\(oneDayForecast.wind)" + " m/s"
+                humidityPersentageLabel.text = "\(oneDayForecast.humidity)" + " %"
+                forecastCollectionView.reloadData()
+                
+            } else {
+                let oneDayForecast = forecast[0] 
+                bigWeatherUIImage.image = UIImage(imageLiteralResourceName: oneDayForecast.getBigWeatherIcon())
+                tempetureUILabel.text = "\(oneDayForecast.temp)" + " \u{2103}"
+                windSpeedLabel.text = "\(oneDayForecast.wind)" + " m/s"
+                humidityPersentageLabel.text = "\(oneDayForecast.humidity)" + " %"
+                forecastCollectionView.reloadData()
+            }
+
+            
+        } else {
+            print("forecast is nil")
+        }
         
     }
     

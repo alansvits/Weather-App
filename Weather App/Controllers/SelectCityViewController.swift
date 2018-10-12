@@ -210,7 +210,8 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         //TODO: - TODO
         if segue.identifier == "ShowCityWeather" {
             let controller = segue.destination as! CityDetailViewController
-            controller.getDetailWeather(selectedCity) 
+            controller.getDetailWeather(selectedCity)
+
         }
         
     }
