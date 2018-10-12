@@ -19,6 +19,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var tempetureUILabel: UILabel!
     
     @IBOutlet weak var windSpeedLabel: UILabel!
+    @IBOutlet weak var rainChanceLabel: UILabel!
     @IBOutlet weak var humidityPersentageLabel: UILabel!
     
     var fiveDaysForecast: [WeatherData]?
@@ -97,14 +98,17 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+//        updateDetailWeatherUI(fiveDaysForecast, at: indexPath)
+        
         if let forecast = fiveDaysForecast {
-            
+
             let oneDayForecast = forecast[indexPath.row]
             bigWeatherUIImage.image = UIImage(imageLiteralResourceName: oneDayForecast.getBigWeatherIcon())
             tempetureUILabel.text = "\(oneDayForecast.temp)" + " \u{2103}"
             windSpeedLabel.text = "\(oneDayForecast.wind)" + " m/s"
             humidityPersentageLabel.text = "\(oneDayForecast.humidity)" + " %"
-            
+            rainChanceLabel.text = "\(oneDayForecast.getRainChance())" + " %"
+
         }
         
     }
@@ -133,6 +137,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             self.updateUIWith(forecast)
             self.updateDetailWeatherUI(forecast, at: nil)
 //            self.selectFirstCell()
+            print(json)
             
             for item in forecast {
                 print(item)
@@ -143,33 +148,6 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
 }
-
-//extension CityDetailViewController: UICollectionViewDelegateFlowLayout {
-//    //1
-//    func collectionView(_ collectionView: UICollectionView,
-//                        layout collectionViewLayout: UICollectionViewLayout,
-//                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        //2
-//        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
-//        let availableWidth = view.frame.width - paddingSpace
-//        let widthPerItem = availableWidth / itemsPerRow
-//                print(paddingSpace)
-//                print(availableWidth)
-//                print(widthPerItem)
-//        return CGSize(width: ceil(widthPerItem), height: 86)
-//    }
-//
-//    //3
-//    func collectionView(_ collectionView: UICollectionView,
-//                        layout collectionViewLayout: UICollectionViewLayout,
-//                        insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return sectionInsets
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 3
-//    }
-//}
 
 extension CityDetailViewController {
     
@@ -199,14 +177,16 @@ extension CityDetailViewController {
                 tempetureUILabel.text = "\(oneDayForecast.temp)" + " \u{2103}"
                 windSpeedLabel.text = "\(oneDayForecast.wind)" + " m/s"
                 humidityPersentageLabel.text = "\(oneDayForecast.humidity)" + " %"
+                rainChanceLabel.text = "\(oneDayForecast.getRainChance())" + " %"
                 forecastCollectionView.reloadData()
                 
             } else {
-                let oneDayForecast = forecast[0] 
+                let oneDayForecast = forecast[0]
                 bigWeatherUIImage.image = UIImage(imageLiteralResourceName: oneDayForecast.getBigWeatherIcon())
                 tempetureUILabel.text = "\(oneDayForecast.temp)" + " \u{2103}"
                 windSpeedLabel.text = "\(oneDayForecast.wind)" + " m/s"
                 humidityPersentageLabel.text = "\(oneDayForecast.humidity)" + " %"
+                rainChanceLabel.text = "\(oneDayForecast.getRainChance())" + " %"
                 forecastCollectionView.reloadData()
             }
 

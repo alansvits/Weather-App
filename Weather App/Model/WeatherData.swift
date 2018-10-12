@@ -17,6 +17,7 @@ class WeatherData {
         self.wind = Int(rawData.windArray.sum() / Float(rawData.windArray.count))
         self.conditionCode = rawData.skyConditionArraay.randomElement()!
         self.pressure = rawData.pressureArray.randomElement()!
+        self.rainChance = self.getRainChance()
         self.date = rawData.date
     }
     var cityName: String = ""
@@ -25,6 +26,7 @@ class WeatherData {
     var wind: Int = 0
     var conditionCode: Int = 0
     var pressure: Int = 0
+    var rainChance: Int = 0
     var weatherIconName : String = ""
 
     var dayOfWeek: String = ""
@@ -101,6 +103,27 @@ class WeatherData {
             
         default :
             return "dunno"
+        }
+        
+    }
+    
+    func getRainChance() -> Int {
+        
+        switch self.conditionCode {
+            
+        case 0...300:
+            return 95
+        case 301...623:
+            return 90
+        case 701...782:
+            return 35
+        case 800:
+            return 10
+        case 801...805:
+            return 20
+        default:
+            return 5
+            
         }
         
     }
