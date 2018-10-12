@@ -78,7 +78,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             
             cell.dayForecastCell.text = forecast[indexPath.row].getDayOfWeek()
             cell.precipitationForecastImage.image = UIImage(imageLiteralResourceName: forecast[indexPath.row].getSmallWeatherIcon())
-            cell.tempForecastLabel.text = String(forecast[indexPath.row].temp)
+            cell.tempForecastLabel.text = String(forecast[indexPath.row].temp) + " \u{00B0}"
             
             forecastCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: [])
             
