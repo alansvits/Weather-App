@@ -111,6 +111,31 @@ class WeatherData {
         
     }
     
+    func getWeatherIconForCitiesScreen() -> String {
+        
+        switch (self.conditionCode) {
+            
+        case 0...300 :
+            return "cloud_rain_thunder_cities_screen"
+            
+        case 301...623 :
+            return "cloud_rain_cities_screen"
+            
+        case 701...782 :
+            return "cloud_cities_screen"
+            
+        case 800 :
+            return "sun_cities_screen"
+            
+        case 801...805 :
+            return "cloud_sun_cities_screen"
+            
+        default :
+            return "dunno"
+        }
+        
+    }
+    
     func getRainChance() -> Int {
         
         switch self.conditionCode {

@@ -52,7 +52,7 @@ class CitiesViewController: UICollectionViewController {
         if forecastsArray.count != 0 {
             let todayWeather = forecastsArray[indexPath.row].getTodayWeatherData()!
             cell.cityLabel.text = todayWeather.cityName
-            cell.precipitationImageView.image = UIImage(imageLiteralResourceName: todayWeather.getSmallWeatherIcon())
+            cell.precipitationImageView.image = UIImage(imageLiteralResourceName: todayWeather.getWeatherIconForCitiesScreen())
             cell.temperatureLabel.text = "\(todayWeather.temp_max)" + "/\(todayWeather.temp_min)" + " \u{2103}"
             cell.backgroundColor = UIColor(hex: "1F2427")
             
