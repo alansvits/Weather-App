@@ -19,6 +19,7 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
         self.minimumInteritemSpacing = minimumInteritemSpacing
         self.minimumLineSpacing = minimumLineSpacing
         self.sectionInset = sectionInset
+        self.sectionInsetReference = .fromSafeArea
     }
     
     required init?(coder aDecoder: NSCoder) {

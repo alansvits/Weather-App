@@ -8,8 +8,8 @@
 
 import UIKit
 
-fileprivate let itemsPerRow: CGFloat = 5
-fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 5.0, right: 0.0)
+//fileprivate let itemsPerRow: CGFloat = 5
+//fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 5.0, right: 0.0)
 
 class CityDetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, JSONWeatherParsingProtocol, GetWeatherDataProtocol {
     
@@ -32,8 +32,8 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     let columnLayout = ColumnFlowLayout(
         cellsPerRow: 5,
         minimumInteritemSpacing: 3,
-        minimumLineSpacing: 5,
-        sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        minimumLineSpacing: 3,
+        sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     )
     
     override func viewDidLoad() {
@@ -49,6 +49,8 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         
         forecastCollectionView.allowsMultipleSelection = false
         
+        
+        print(view.safeAreaInsets)
 
         
     }
