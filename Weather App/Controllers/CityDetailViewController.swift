@@ -8,8 +8,11 @@
 
 import UIKit
 
-//fileprivate let itemsPerRow: CGFloat = 5
-//fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 5.0, right: 0.0)
+protocol CityDetailViewControllerDelegate: class {
+    
+    func cityDetailViewController(_ controller: CityDetailViewController, didFinishAdding forecast: [WeatherData])
+    
+}
 
 class CityDetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, JSONWeatherParsingProtocol, GetWeatherDataProtocol {
     
@@ -24,6 +27,8 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     
     var fiveDaysForecast: [WeatherData]?
     
+    weak var delegate: CityDetailViewControllerDelegate?
+    
     //Weather the first cell should be selected
     var isSelected = false
     
@@ -36,14 +41,28 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     )
     
+
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "ShowCities" {
+            let controller = segue.destination as! CitiesViewController
+            let forecast = Forecast(fiveDaysForecast!)
+            
+            controller.forecastsArray.append(forecast)
+            
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.backBarButtonItem?.tintColor = UIColor.white
         navigationController?.navigationBar.backItem?.backBarButtonItem?.tintColor = UIColor.white
         
         // Register cell classes
-//        forecastCollectionView.register(ForecastCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
+        //        forecastCollectionView.register(ForecastCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        
         forecastCollectionView.collectionViewLayout = columnLayout
         forecastCollectionView.contentInsetAdjustmentBehavior = .always
         
@@ -51,7 +70,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         
         
         print(view.safeAreaInsets)
-
+        
         
     }
     
@@ -86,31 +105,31 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             
         }
         
-//        cell.dayForecastCell.text = "Sunday"
-//        cell.precipitationForecastImage.image = UIImage(imageLiteralResourceName: "sun_small")
-//        cell.tempForecastLabel.text = "17"
+        //        cell.dayForecastCell.text = "Sunday"
+        //        cell.precipitationForecastImage.image = UIImage(imageLiteralResourceName: "sun_small")
+        //        cell.tempForecastLabel.text = "17"
         cell.backgroundColor = UIColor(hex: "1F2427")
-//                cell.backgroundColor = UIColor.red
-
+        //                cell.backgroundColor = UIColor.red
+        
         
         return cell
     }
     
     //MARK: - UICollectionViewDelegate METHODS
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-//        updateDetailWeatherUI(fiveDaysForecast, at: indexPath)
+        //        updateDetailWeatherUI(fiveDaysForecast, at: indexPath)
         
         if let forecast = fiveDaysForecast {
-
+            
             let oneDayForecast = forecast[indexPath.row]
             bigWeatherUIImage.image = UIImage(imageLiteralResourceName: oneDayForecast.getBigWeatherIcon())
             tempetureUILabel.text = "\(oneDayForecast.temp)" + " \u{2103}"
             windSpeedLabel.text = "\(oneDayForecast.wind)" + " m/s"
             humidityPersentageLabel.text = "\(oneDayForecast.humidity)" + " %"
             rainChanceLabel.text = "\(oneDayForecast.getRainChance())" + " %"
-
+            
         }
         
     }
@@ -120,7 +139,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     func getDetailWeather(_ city: String) {
         
         let params : [String : String] = ["q" : city, "appid" : Settings.shared.APP_ID, "units": "metric"]
-
+        
         getWeatherJSON(url: Settings.shared.WEATHER_FORECAST_URL, parameters: params) { (json) -> (Void) in
             
             guard let cityName = self.getCityName(json) else {
@@ -131,19 +150,21 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             DispatchQueue.main.async {
                 self.navigationItem.title = cityName
             }
-            
+                        print(json)
             let listWithForecasts = self.getJSONObjList(json)
             let separetedFor5DaysList = self.getSeparateForecastListFrom(listWithForecasts)
+            print("separeted is \(separetedFor5DaysList)")
             let rawWeatherDataList = self.getRawWeatherDataFrom(separetedFor5DaysList)
-            let forecast = self.getForecast(rawWeatherDataList).ordered()
+            let forecast = self.getForecast(rawWeatherDataList, for: cityName).ordered()
+            self.fiveDaysForecast = forecast
             self.updateUIWith(forecast)
             self.updateDetailWeatherUI(forecast, at: nil)
-//            self.selectFirstCell()
-            print(json)
+            //            self.selectFirstCell()
+
             
-            for item in forecast {
-                print(item)
-            }
+//            for item in forecast {
+//                print(item)
+//            }
             
         }
         
@@ -191,7 +212,7 @@ extension CityDetailViewController {
                 rainChanceLabel.text = "\(oneDayForecast.getRainChance())" + " %"
                 forecastCollectionView.reloadData()
             }
-
+            
             
         } else {
             print("forecast is nil")

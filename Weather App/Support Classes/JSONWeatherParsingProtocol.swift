@@ -12,8 +12,8 @@ import SwiftyJSON
 protocol JSONWeatherParsingProtocol {
     func getCityName(_ json: JSON) -> String?
     func getJSONObjList(_ json: JSON) -> [JSON]
-    func getRawWeatherDataFrom(_ list: [String: [JSON]]) -> [rawWeatherData]
-    func getForecast(_ rawData: [rawWeatherData]) -> [WeatherData]
+    func getRawWeatherDataFrom(_ list: [String: [JSON]]) -> [RawWeatherData]
+    func getForecast(_ rawData: [RawWeatherData], for city: String) -> [WeatherData]
 }
 
 extension JSONWeatherParsingProtocol {
@@ -68,57 +68,65 @@ extension JSONWeatherParsingProtocol {
         
     }
     
-    func getRawWeatherDataFrom(_ list: [String: [JSON]]) -> [rawWeatherData] {
+    func getRawWeatherDataFrom(_ list: [String: [JSON]]) -> [RawWeatherData] {
         
-        var rawWeatherDataList = [rawWeatherData]()
-        var rawData = rawWeatherData()
+        var rawWeatherDataList = [RawWeatherData]()
+        var rawData = RawWeatherData()
         
-        var key = ""
         for item in list {
             
-            if key == "" { key = item.key }
-            
-            for json in item.value {
-                
-                if key != item.key {
-                    rawWeatherDataList.append(rawData)
-                    rawData = rawWeatherData()
-                    key = item.key
-                    
-                    rawData.date = json["dt_txt"].stringValue.getDate()
-                    rawData.humidityArray.append(json["main"]["humidity"].intValue)
-                    rawData.pressureArray.append(Int(json["main"]["pressure"].floatValue))
-                    rawData.skyConditionArraay.append(json["weather"][0]["id"].intValue)
-                    rawData.tempArray.append(Int(json["main"]["temp"].floatValue))
-                    rawData.windArray.append(json["wind"]["speed"].floatValue)
-                    
-                } else {
-                    
-                    rawData.date = json["dt_txt"].stringValue.getDate()
-                    rawData.humidityArray.append(json["main"]["humidity"].intValue)
-                    rawData.pressureArray.append(Int(json["main"]["pressure"].floatValue))
-                    rawData.skyConditionArraay.append(json["weather"][0]["id"].intValue)
-                    rawData.tempArray.append(Int(json["main"]["temp"].floatValue))
-                    rawData.windArray.append(json["wind"]["speed"].floatValue)
-                    
-                }
-                
-            }
+            rawWeatherDataList.append(item.value.extractRawWeatherData(rawData))
             
         }
+        
+//        var key = ""
+//        for item in list {
+//
+//            if key == "" { key = item.key }
+//
+//            for json in item.value {
+//
+//                if key != item.key {
+//                    rawWeatherDataList.append(rawData)
+//                    rawData = RawWeatherData()
+//                    key = item.key
+//
+//                    rawData.date = json["dt_txt"].stringValue.getDate()
+//                    rawData.humidityArray.append(json["main"]["humidity"].intValue)
+//                    rawData.pressureArray.append(Int(json["main"]["pressure"].floatValue))
+//                    rawData.skyConditionArraay.append(json["weather"][0]["id"].intValue)
+//                    rawData.tempArray.append(Int(json["main"]["temp"].floatValue))
+//                    rawData.windArray.append(json["wind"]["speed"].floatValue)
+//
+//
+//                } else {
+//
+//                    rawData.date = json["dt_txt"].stringValue.getDate()
+//                    rawData.humidityArray.append(json["main"]["humidity"].intValue)
+//                    rawData.pressureArray.append(Int(json["main"]["pressure"].floatValue))
+//                    rawData.skyConditionArraay.append(json["weather"][0]["id"].intValue)
+//                    rawData.tempArray.append(Int(json["main"]["temp"].floatValue))
+//                    rawData.windArray.append(json["wind"]["speed"].floatValue)
+//
+//
+//                }
+//
+//            }
+//
+//        }
         
         return rawWeatherDataList
         
     }
     
-    func getForecast(_ rawData: [rawWeatherData]) -> [WeatherData] {
+    func getForecast(_ rawData: [RawWeatherData], for city: String) -> [WeatherData] {
         
         var forecastsArray = [WeatherData]()
         
         for item in rawData {
             
             let forecast = WeatherData(item)
-            
+            forecast.cityName = city
             forecastsArray.append(forecast)
             
         }

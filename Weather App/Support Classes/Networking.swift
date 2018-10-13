@@ -23,15 +23,15 @@ class Networking {
                 print("Success! Got the weather data")
                 weatherJSON = JSON(response.result.value!)
                 
-                let cityName = WeatherForecast.getCityName(weatherJSON!)
-                print(cityName)
-                let list = WeatherForecast.getJSONObjList(weatherJSON!)
-//                print("list is \(list)")
-                let dict = WeatherForecast.getSeparateForecastListFrom(list)
-                print("dict is \(dict)")
-                let rawWeatherArr = WeatherForecast.getRawWeatherDataFrom(dict)
-                print(rawWeatherArr)
-                print(weatherJSON)
+//                let cityName = WeatherForecast.getCityName(weatherJSON!)
+//                print(cityName)
+//                let list = WeatherForecast.getJSONObjList(weatherJSON!)
+////                print("list is \(list)")
+//                let dict = WeatherForecast.getSeparateForecastListFrom(list)
+//                print("dict is \(dict)")
+//                let rawWeatherArr = WeatherForecast.getRawWeatherDataFrom(dict)
+//                print(rawWeatherArr)
+//                print(weatherJSON)
                 
             } else {
                 

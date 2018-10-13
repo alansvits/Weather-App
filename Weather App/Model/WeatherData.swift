@@ -11,8 +11,10 @@ import SwiftyJSON
 
 class WeatherData {
     
-    init(_ rawData: rawWeatherData) {
+    init(_ rawData: RawWeatherData) {
         self.temp = rawData.tempArray.sum() / rawData.tempArray.count
+        self.temp_min = rawData.tempArray.min()!
+        self.temp_max = rawData.tempArray.max()!
         self.humidity = rawData.humidityArray.sum() / rawData.humidityArray.count
         self.wind = Int(rawData.windArray.sum() / Float(rawData.windArray.count))
         self.conditionCode = rawData.skyConditionArraay.randomElement()!
@@ -22,6 +24,8 @@ class WeatherData {
     }
     var cityName: String = ""
     var temp: Int = 0
+    var temp_min: Int = 0
+    var temp_max: Int = 0
     var humidity: Int = 0
     var wind: Int = 0
     var conditionCode: Int = 0

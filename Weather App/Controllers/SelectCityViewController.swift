@@ -21,7 +21,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var locationItem: UIBarButtonItem!
         
     var weatherJSON = JSON()
-    var rawForecasts = [rawWeatherData]()
+    var rawForecasts = [RawWeatherData]()
     var forecasts = [WeatherData]()
     var selectedCity = ""
     
@@ -56,6 +56,8 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         print(navigationItem.searchController?.searchBar.frame.size.height)
         print(tableView.frame)
 
+        
+        print("SelectCities \(forecasts)")
 //        tableView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: (navigationItem.searchController?.searchBar.frame.size.height)!).isActive = true
         
         //Show search bar
@@ -164,14 +166,14 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
 //                self.navigationItem.title = WeatherForecast.getCityName(json)
 //            }
             
-            let list = WeatherForecast.getJSONObjList(json)
-            let dict = WeatherForecast.getSeparateForecastListFrom(list)
-            self.rawForecasts = WeatherForecast.getRawWeatherDataFrom(dict)
-            self.forecasts = WeatherForecast.getForecast(self.rawForecasts)
-            let temp = self.forecasts.ordered()
-            for item in temp {
-//                print(item.date)
-            }
+//            let list = WeatherForecast.getJSONObjList(json)
+//            let dict = WeatherForecast.getSeparateForecastListFrom(list)
+//            self.rawForecasts = WeatherForecast.getRawWeatherDataFrom(dict)
+//            self.forecasts = WeatherForecast.getForecast(self.rawForecasts)
+//            let temp = self.forecasts.ordered()
+//            for item in temp {
+////                print(item.date)
+//            }
 //            print(self.forecasts)
 //            print(self.rawForecasts)
 //            print(self.weatherJSON)
@@ -211,7 +213,6 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         if segue.identifier == "ShowCityWeather" {
             let controller = segue.destination as! CityDetailViewController
             controller.getDetailWeather(selectedCity)
-
         }
         
     }
@@ -351,3 +352,4 @@ extension SelectCityViewController {
     }
     
 }
+

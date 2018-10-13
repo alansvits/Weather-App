@@ -7,6 +7,30 @@
 //
 
 import Foundation
+import SwiftyJSON
+
+extension Array where Element == JSON {
+    
+    func extractRawWeatherData(_ to: RawWeatherData) -> RawWeatherData {
+        
+        var rawData = RawWeatherData()
+        
+        for json in self {
+            
+            rawData.date = json["dt_txt"].stringValue.getDate()
+            rawData.humidityArray.append(json["main"]["humidity"].intValue)
+            rawData.pressureArray.append(Int(json["main"]["pressure"].floatValue))
+            rawData.skyConditionArraay.append(json["weather"][0]["id"].intValue)
+            rawData.tempArray.append(Int(json["main"]["temp"].floatValue))
+            rawData.windArray.append(json["wind"]["speed"].floatValue)
+            
+        }
+        
+        return rawData
+
+    }
+    
+}
 
 extension Array where Element: Numeric {
     
