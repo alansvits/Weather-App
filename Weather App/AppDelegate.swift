@@ -17,6 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        let entity = NSEntityDescription.insertNewObject(forEntityName: "Entity", into: self.persistentContainer.viewContext) as! Entity
+        entity.name = "thing"
+        
+        do {
+            let request = NSFetchRequest<Entity>(entityName: "Entity")
+            let testEntity = try self.persistentContainer.viewContext.fetch(request)
+            
+            let sample = testEntity.first
+            print("It's alive. \(sample?.name!)")
+        } catch let error as NSError {
+            print("Fetching error: \(error), \(error.userInfo)")
+        }
                 
         return true
     }
