@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		640175752174EDC600CF976E /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640175742174EDC600CF976E /* DataController.swift */; };
 		64893A6321655167008FAB0C /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64893A6221655167008FAB0C /* ColumnFlowLayout.swift */; };
 		64893A6521655536008FAB0C /* ForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64893A6421655536008FAB0C /* ForecastCell.swift */; };
 		64A8269521688E820099901F /* major_cities.json in Resources */ = {isa = PBXBuildFile; fileRef = 64A8269421688E820099901F /* major_cities.json */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		640175742174EDC600CF976E /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		64893A6221655167008FAB0C /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		64893A6421655536008FAB0C /* ForecastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastCell.swift; sourceTree = "<group>"; };
 		64A8269421688E820099901F /* major_cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = major_cities.json; sourceTree = "<group>"; };
@@ -137,7 +139,6 @@
 				6458A9642167CA4B0071D81F /* Support Classes */,
 				64F39B772163C9EE0075E1AE /* Info.plist */,
 				64FA4C45216BBD6500A13CFE /* Assets.xcassets */,
-				64F39B6F2163C9EC0075E1AE /* Weather_App.xcdatamodeld */,
 				64A8269421688E820099901F /* major_cities.json */,
 			);
 			path = "Weather App";
@@ -149,6 +150,8 @@
 				64FA5CB5216A0926005928A0 /* WeatherData.swift */,
 				64FA5CB9216A4EC6005928A0 /* WeatherForecast.swift */,
 				64FCA78C2172305500EF6BF7 /* Forecast.swift */,
+				640175742174EDC600CF976E /* DataController.swift */,
+				64F39B6F2163C9EC0075E1AE /* Weather_App.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				64F39B7E2163D2580075E1AE /* CitiesViewController.swift in Sources */,
 				64F39B86216402FD0075E1AE /* CityDetailViewController.swift in Sources */,
 				64FA5CB8216A302B005928A0 /* Networking.swift in Sources */,
+				640175752174EDC600CF976E /* DataController.swift in Sources */,
 				64F39B712163C9EC0075E1AE /* Weather_App.xcdatamodeld in Sources */,
 				64FA4C44216BB42E00A13CFE /* Date+Extension.swift in Sources */,
 				64FA5CBC216A58A5005928A0 /* String+Extention.swift in Sources */,
