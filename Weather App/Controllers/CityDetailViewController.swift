@@ -14,7 +14,7 @@ protocol CityDetailViewControllerDelegate: class {
     
 }
 
-class CityDetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, JSONWeatherParsingProtocol, GetWeatherDataProtocol {
+class CityDetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, JSONWeatherParsingProtocol, GetWeatherJSON {
     
     @IBOutlet weak var forecastCollectionView: UICollectionView!
     

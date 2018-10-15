@@ -19,6 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         dataController.load()
+        
+        //Inject dataController dependency into CitiesVC
+        let navigationController = window?.rootViewController as! UINavigationController
+        let citiesViewController = navigationController.topViewController as! CitiesViewController
+        citiesViewController.dataController = self.dataController
                 
         return true
     }

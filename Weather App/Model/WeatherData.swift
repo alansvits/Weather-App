@@ -16,7 +16,7 @@ class WeatherData {
         self.temp_min = rawData.tempArray.min()!
         self.temp_max = rawData.tempArray.max()!
         self.humidity = rawData.humidityArray.sum() / rawData.humidityArray.count
-        self.wind = Int(rawData.windArray.sum() / Float(rawData.windArray.count))
+        self.wind = Float(rawData.windArray.sum() / Float(rawData.windArray.count))
         self.conditionCode = rawData.skyConditionArraay.randomElement()!
         self.pressure = rawData.pressureArray.randomElement()!
         self.rainChance = self.getRainChance()
@@ -27,7 +27,7 @@ class WeatherData {
     var temp_min: Int = 0
     var temp_max: Int = 0
     var humidity: Int = 0
-    var wind: Int = 0
+    var wind: Float = 0
     var conditionCode: Int = 0
     var pressure: Int = 0
     var rainChance: Int = 0

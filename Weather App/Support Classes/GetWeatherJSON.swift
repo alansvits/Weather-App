@@ -1,5 +1,5 @@
 //
-//  NetworkingProtocol.swift
+//  GetWeatherJSON.swift
 //  Weather App
 //
 //  Created by Stas Shetko on 2/10/18.
@@ -10,13 +10,13 @@ import Foundation
 import SwiftyJSON
 import Alamofire
 
-protocol GetWeatherDataProtocol {
+protocol GetWeatherJSON {
     
         func getWeatherJSON(url: String, parameters: [String: String], complition: @escaping (JSON) -> (Void)) -> JSON?
     
 }
 
-extension GetWeatherDataProtocol {
+extension GetWeatherJSON {
     
     func getWeatherJSON(url: String, parameters: [String: String], complition: @escaping (JSON) -> (Void)) -> JSON? {
         

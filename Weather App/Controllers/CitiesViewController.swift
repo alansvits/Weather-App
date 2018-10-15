@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import CoreData
 
 class CitiesViewController: UICollectionViewController {
     
     var forecastsArray = [Forecast]()
+    
+    var weatherForecastsArray = [WeatherForecast]()
+    
+    var dataController: DataController!
     
     let reuseIdentifier = "CityCell"
     fileprivate let itemsPerRow: CGFloat = 3
@@ -21,16 +26,17 @@ class CitiesViewController: UICollectionViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
-        updateUI()
+        let fetchRequest: NSFetchRequest<WeatherForecast> = WeatherForecast.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "city", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
         
-        // Register cell classes
-        //        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
-        for i in forecastsArray {
-            print(i.today)
-            print(i.fiveDaysWeatherData)
-            print("today weather is: \(i.getTodayWeatherData())")
+        if let result = try? dataController.viewContext.fetch(fetchRequest) {
+            weatherForecastsArray = result
+            print("Cities got weather: \(weatherForecastsArray) with \(result.count) elements")
         }
+        
+        updateUI()
+
     }
     
     // MARK: UICollectionViewDataSource
@@ -115,3 +121,33 @@ extension CitiesViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
+
+extension CitiesViewController: JSONWeatherParsingProtocol, ConvertToNSManagedObject, GetWeatherJSON {
+    
+    func getWeatherForecastFor(_ city: String) {
+        
+        let params : [String : String] = ["q" : city, "appid" : Settings.shared.APP_ID, "units": "metric"]
+        
+        getWeatherJSON(url: Settings.shared.WEATHER_FORECAST_URL, parameters: params) { (json) -> (Void) in
+            
+            guard let cityName = self.getCityName(json) else {
+                print("Cannot get city name from json")
+                return
+            }
+
+            print(json)
+            let listWithForecasts = self.getJSONObjList(json)
+            let separetedFor5DaysList = self.getSeparateForecastListFrom(listWithForecasts)
+            print("separeted is \(separetedFor5DaysList)")
+            let rawWeatherDataList = self.getRawWeatherDataFrom(separetedFor5DaysList)
+            let forecast = self.getForecast(rawWeatherDataList, for: cityName).ordered()
+            
+            
+            
+        }
+        
+    }
+    
+    
+    
+}
