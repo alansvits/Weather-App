@@ -18,4 +18,18 @@ extension Date {
         return Calendar.current.dateComponents([.day], from: self).day
     }
     
+    func isThisDateToday(_ date: Date) -> Bool {
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        let stringTodayDate = formatter.string(from: self)
+        let comperingDate = formatter.string(from: date)
+        if stringTodayDate == comperingDate {
+            return true
+        } else {
+            return false
+        }
+        
+    }
+    
 }

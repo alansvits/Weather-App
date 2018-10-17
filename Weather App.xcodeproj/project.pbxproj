@@ -22,6 +22,8 @@
 		64F39B832163F8A40075E1AE /* CityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F39B812163F8A40075E1AE /* CityCell.swift */; };
 		64F39B86216402FD0075E1AE /* CityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F39B85216402FD0075E1AE /* CityDetailViewController.swift */; };
 		64F5C08A216519D800CF0CF7 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F5C089216519D800CF0CF7 /* UIColor+Extension.swift */; };
+		64F9FED22177BEBC00F5A51F /* WeatherForecast+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F9FED12177BEBC00F5A51F /* WeatherForecast+Extension.swift */; };
+		64F9FED42177C86400F5A51F /* Weather+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F9FED32177C86400F5A51F /* Weather+Extension.swift */; };
 		64FA4C44216BB42E00A13CFE /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA4C43216BB42E00A13CFE /* Date+Extension.swift */; };
 		64FA4C46216BBD6500A13CFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64FA4C45216BBD6500A13CFE /* Assets.xcassets */; };
 		64FA5CB6216A0926005928A0 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA5CB5216A0926005928A0 /* WeatherData.swift */; };
@@ -54,6 +56,8 @@
 		64F39B812163F8A40075E1AE /* CityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCell.swift; sourceTree = "<group>"; };
 		64F39B85216402FD0075E1AE /* CityDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDetailViewController.swift; sourceTree = "<group>"; };
 		64F5C089216519D800CF0CF7 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		64F9FED12177BEBC00F5A51F /* WeatherForecast+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherForecast+Extension.swift"; sourceTree = "<group>"; };
+		64F9FED32177C86400F5A51F /* Weather+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Weather+Extension.swift"; sourceTree = "<group>"; };
 		64FA4C43216BB42E00A13CFE /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		64FA4C45216BBD6500A13CFE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64FA5CB5216A0926005928A0 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
@@ -157,6 +161,8 @@
 				64FA5CB9216A4EC6005928A0 /* WeatherForecast.swift */,
 				64FCA78C2172305500EF6BF7 /* Forecast.swift */,
 				640175742174EDC600CF976E /* DataController.swift */,
+				64F9FED12177BEBC00F5A51F /* WeatherForecast+Extension.swift */,
+				64F9FED32177C86400F5A51F /* Weather+Extension.swift */,
 				64F39B6F2163C9EC0075E1AE /* Weather_App.xcdatamodeld */,
 			);
 			path = Model;
@@ -308,6 +314,7 @@
 				64FA4C44216BB42E00A13CFE /* Date+Extension.swift in Sources */,
 				6408EF96217523FB002D0817 /* Float+Extensions.swift in Sources */,
 				6408EF9421751F15002D0817 /* ConvertToNSManagedObject.swift in Sources */,
+				64F9FED42177C86400F5A51F /* Weather+Extension.swift in Sources */,
 				64FA5CBC216A58A5005928A0 /* String+Extention.swift in Sources */,
 				64FA5CBE216A8ADC005928A0 /* Array+Extension.swift in Sources */,
 				64893A6521655536008FAB0C /* ForecastCell.swift in Sources */,
@@ -319,6 +326,7 @@
 				64FAA1EF2167B43E0004B8EF /* Settings.swift in Sources */,
 				64FAE2FB216E515A00860D6F /* JSONWeatherParsingProtocol.swift in Sources */,
 				64FCA78D2172305500EF6BF7 /* Forecast.swift in Sources */,
+				64F9FED22177BEBC00F5A51F /* WeatherForecast+Extension.swift in Sources */,
 				64F39B692163C9EC0075E1AE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

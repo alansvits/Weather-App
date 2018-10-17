@@ -28,7 +28,7 @@ class CitiesViewController: UICollectionViewController, NSFetchedResultsControll
         super.viewDidLoad()
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
-        //        getWeatherForecastFor("Fastiv")
+//                getWeatherForecastFor("London")
         
         setUpFetchResultsController()
         
@@ -56,21 +56,31 @@ class CitiesViewController: UICollectionViewController, NSFetchedResultsControll
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CityCell
         
         let weatherForecast =  fetchResultsController.object(at: indexPath)
-        
-        if forecastsArray.count != 0 {
-            let todayWeather = forecastsArray[indexPath.row].getTodayWeatherData()!
-            cell.cityLabel.text = weatherForecast.city
-            cell.precipitationImageView.image = UIImage(imageLiteralResourceName: todayWeather.getWeatherIconForCitiesScreen())
-            cell.temperatureLabel.text = "\(todayWeather.temp_max)" + "/\(todayWeather.temp_min)" + " \u{2103}"
-            cell.backgroundColor = UIColor(hex: "1F2427")
-            
-        } else {
-            
-            cell.cityLabel.text = "Londom"
-            cell.precipitationImageView.image = UIImage(imageLiteralResourceName: "sun_main_screen")
-            cell.temperatureLabel.text = "22/16 C"
-            cell.backgroundColor = UIColor(hex: "1F2427")
+        guard let todayForecast = weatherForecast.getForecastFor(Date()) else {
+            print("No todayForecast for \(weatherForecast.city)")
+            return cell
         }
+        
+        cell.cityLabel.text = weatherForecast.city?.capitalized
+        cell.temperatureLabel.text = "\(todayForecast.maxTempature)" + "/\(todayForecast.minTempature)" + " \u{2103}"
+        cell.precipitationImageView.image = UIImage(imageLiteralResourceName: todayForecast.getWeatherIconForCitiesScreen())
+        cell.backgroundColor = UIColor(hex: "1F2427")
+        
+        
+//        if forecastsArray.count != 0 {
+//            let todayWeather = forecastsArray[indexPath.row].getTodayWeatherData()!
+//            cell.cityLabel.text = weatherForecast.city
+//            cell.precipitationImageView.image = UIImage(imageLiteralResourceName: todayWeather.getWeatherIconForCitiesScreen())
+//            cell.temperatureLabel.text = "\(todayWeather.temp_max)" + "/\(todayWeather.temp_min)" + " \u{2103}"
+//            cell.backgroundColor = UIColor(hex: "1F2427")
+//
+//        } else {
+//
+//            cell.cityLabel.text = "Londom"
+//            cell.precipitationImageView.image = UIImage(imageLiteralResourceName: "sun_main_screen")
+//            cell.temperatureLabel.text = "22/16 C"
+//            cell.backgroundColor = UIColor(hex: "1F2427")
+//        }
         return cell
     }
     
