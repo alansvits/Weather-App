@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = window?.rootViewController as! UINavigationController
         let citiesViewController = navigationController.topViewController as! CitiesViewController
         citiesViewController.dataController = self.dataController
+        
+            print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
                 
         return true
     }

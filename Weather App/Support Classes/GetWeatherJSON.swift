@@ -25,19 +25,10 @@ extension GetWeatherJSON {
         Alamofire.request(url, method: .get, parameters: parameters).responseJSON { (response) in
             
             if response.result.isSuccess {
-                
+                //TODO: - FIX code(200, 404) handling
                 print("Success! Got the weather data")
                 weatherJSON = JSON(response.result.value!)
-                //
-                //                let cityName = WeatherForecast.getCityName(weatherJSON!)
-                //                print(cityName)
-                //                let list = WeatherForecast.getJSONObjList(weatherJSON!)
-                //                //                print("list is \(list)")
-                //                let dict = WeatherForecast.getSeparateForecastListFrom(list)
-                ////                print("dict is \(dict)")
-                //                let rawWeatherArr = WeatherForecast.getRawWeatherDataFrom(dict)
-                //                print(rawWeatherArr)
-                //                print(weatherJSON)
+
                 complition(weatherJSON!)
             } else {
                 

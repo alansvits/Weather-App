@@ -9,13 +9,15 @@
 import UIKit
 import CoreData
 
-class CitiesViewController: UICollectionViewController {
+class CitiesViewController: UICollectionViewController, NSFetchedResultsControllerDelegate   {
     
     var forecastsArray = [Forecast]()
     
-    var weatherForecastsArray = [WeatherForecast]()
+//    var weatherForecastsArray = [WeatherForecast]()
     
     var dataController: DataController!
+    
+    var fetchResultsController: NSFetchedResultsController<WeatherForecast>!
     
     let reuseIdentifier = "CityCell"
     fileprivate let itemsPerRow: CGFloat = 3
@@ -26,38 +28,38 @@ class CitiesViewController: UICollectionViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
-        let fetchRequest: NSFetchRequest<WeatherForecast> = WeatherForecast.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "city", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        //        getWeatherForecastFor("Fastiv")
         
-        if let result = try? dataController.viewContext.fetch(fetchRequest) {
-            weatherForecastsArray = result
-            print("Cities got weather: \(weatherForecastsArray) with \(result.count) elements")
-        }
+        setUpFetchResultsController()
         
-        updateUI()
-
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        fetchResultsController = nil
     }
     
     // MARK: UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return fetchResultsController.sections?.count ?? 1
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return forecastsArray.count
+        return fetchResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CityCell
         
+        let weatherForecast =  fetchResultsController.object(at: indexPath)
+        
         if forecastsArray.count != 0 {
             let todayWeather = forecastsArray[indexPath.row].getTodayWeatherData()!
-            cell.cityLabel.text = todayWeather.cityName
+            cell.cityLabel.text = weatherForecast.city
             cell.precipitationImageView.image = UIImage(imageLiteralResourceName: todayWeather.getWeatherIconForCitiesScreen())
             cell.temperatureLabel.text = "\(todayWeather.temp_max)" + "/\(todayWeather.temp_min)" + " \u{2103}"
             cell.backgroundColor = UIColor(hex: "1F2427")
@@ -70,6 +72,24 @@ class CitiesViewController: UICollectionViewController {
             cell.backgroundColor = UIColor(hex: "1F2427")
         }
         return cell
+    }
+    
+    //MARK: - Helper methods
+    
+    fileprivate func setUpFetchResultsController() {
+        let fetchRequest: NSFetchRequest<WeatherForecast> = WeatherForecast.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "city", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        fetchResultsController.delegate = self
+        
+        do {
+            try fetchResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+        }
     }
     
 }
@@ -107,18 +127,6 @@ extension CitiesViewController: UICollectionViewDelegateFlowLayout {
         return 2
     }
     
-    //MARK: - Helper methods
-    
-    private func updateUI() {
-        
-        if forecastsArray.count != 0 {
-            
-            collectionView.reloadData()
-            
-        }
-        
-    }
-    
 }
 
 
@@ -134,7 +142,7 @@ extension CitiesViewController: JSONWeatherParsingProtocol, ConvertToNSManagedOb
                 print("Cannot get city name from json")
                 return
             }
-
+            
             print(json)
             let listWithForecasts = self.getJSONObjList(json)
             let separetedFor5DaysList = self.getSeparateForecastListFrom(listWithForecasts)
@@ -142,7 +150,9 @@ extension CitiesViewController: JSONWeatherParsingProtocol, ConvertToNSManagedOb
             let rawWeatherDataList = self.getRawWeatherDataFrom(separetedFor5DaysList)
             let forecast = self.getForecast(rawWeatherDataList, for: cityName).ordered()
             
-            
+            DispatchQueue.main.async {
+                self.createForecastsEntityFrom(forecast, for: city, in: self.dataController.viewContext)
+            }
             
         }
         
