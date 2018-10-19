@@ -27,6 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
             print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
                 
+        if Reachability.isConnectedToNetwork() {
+            print("Connected")
+        } else {
+            print("NO CONNECTION")
+        }
+        
         return true
     }
 
@@ -53,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
+
 
     // MARK: - Core Data stack
 

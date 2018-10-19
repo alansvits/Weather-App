@@ -49,8 +49,6 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             let controller = segue.destination as! CitiesViewController
             let forecast = Forecast(fiveDaysForecast!)
             
-            controller.forecastsArray.append(forecast)
-            
         }
         
     }

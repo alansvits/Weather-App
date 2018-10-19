@@ -9,11 +9,7 @@
 import UIKit
 import CoreData
 
-class CitiesViewController: UICollectionViewController, NSFetchedResultsControllerDelegate   {
-    
-    var forecastsArray = [Forecast]()
-    
-//    var weatherForecastsArray = [WeatherForecast]()
+class CitiesViewController: UICollectionViewController   {
     
     var dataController: DataController!
     
@@ -28,7 +24,29 @@ class CitiesViewController: UICollectionViewController, NSFetchedResultsControll
         super.viewDidLoad()
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
         
-//                getWeatherForecastFor("London")
+        //        getWeatherForecastFor("Kiev")
+        
+        //Set default cities if app was never launched
+        if !Settings.isAppAlreadyLaunchedOnce() {
+            
+            let defaultCities = ["Kiev", "Odessa"]
+            UserDefaults.standard.set(defaultCities, forKey: "defaultCities")
+            print("Default cities are set")
+            
+            if let cities = UserDefaults.standard.array(forKey: "defaultCities") as? [String] {
+                for city in cities {
+                    getWeatherForecastFor(city)
+                    print("Weather for \(city) is received")
+                }
+            }
+            
+        }
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         setUpFetchResultsController()
         
@@ -57,7 +75,7 @@ class CitiesViewController: UICollectionViewController, NSFetchedResultsControll
         
         let weatherForecast =  fetchResultsController.object(at: indexPath)
         guard let todayForecast = weatherForecast.getForecastFor(Date()) else {
-            print("No todayForecast for \(weatherForecast.city)")
+            print("No todayForecast for \(String(describing: weatherForecast.city))")
             return cell
         }
         
@@ -66,21 +84,6 @@ class CitiesViewController: UICollectionViewController, NSFetchedResultsControll
         cell.precipitationImageView.image = UIImage(imageLiteralResourceName: todayForecast.getWeatherIconForCitiesScreen())
         cell.backgroundColor = UIColor(hex: "1F2427")
         
-        
-//        if forecastsArray.count != 0 {
-//            let todayWeather = forecastsArray[indexPath.row].getTodayWeatherData()!
-//            cell.cityLabel.text = weatherForecast.city
-//            cell.precipitationImageView.image = UIImage(imageLiteralResourceName: todayWeather.getWeatherIconForCitiesScreen())
-//            cell.temperatureLabel.text = "\(todayWeather.temp_max)" + "/\(todayWeather.temp_min)" + " \u{2103}"
-//            cell.backgroundColor = UIColor(hex: "1F2427")
-//
-//        } else {
-//
-//            cell.cityLabel.text = "Londom"
-//            cell.precipitationImageView.image = UIImage(imageLiteralResourceName: "sun_main_screen")
-//            cell.temperatureLabel.text = "22/16 C"
-//            cell.backgroundColor = UIColor(hex: "1F2427")
-//        }
         return cell
     }
     
@@ -168,6 +171,21 @@ extension CitiesViewController: JSONWeatherParsingProtocol, ConvertToNSManagedOb
         
     }
     
+}
+
+extension CitiesViewController: NSFetchedResultsControllerDelegate {
     
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .insert:
+            collectionView.insertItems(at: [newIndexPath!])
+        case .delete:
+            collectionView.deleteItems(at: [indexPath!])
+        default:
+            break
+        }
+        
+    }
     
 }
