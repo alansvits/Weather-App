@@ -42,7 +42,6 @@ class CitiesViewController: UICollectionViewController   {
             
         }
         
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +54,13 @@ class CitiesViewController: UICollectionViewController   {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         fetchResultsController = nil
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowSelectCity" {
+            let controller = segue.destination as! SelectCityViewController
+            controller.dataController = dataController
+        }
     }
     
     // MARK: UICollectionViewDataSource

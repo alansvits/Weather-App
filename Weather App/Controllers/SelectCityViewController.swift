@@ -10,15 +10,13 @@ import UIKit
 import SwiftyJSON
 import Alamofire
 
-protocol SelectCityViewControllerDelegate: class {
-    func selectCityViewController(_ controller: SelectCityViewController, didSelect city: String)
-}
-
 class SelectCityViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var locationItem: UIBarButtonItem!
+    
+    var dataController: DataController!
         
     var weatherJSON = JSON()
     var rawForecasts = [RawWeatherData]()
@@ -53,11 +51,6 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         generateWordsDict()
         generateWordsDictFromFiltered()
         
-        print(navigationItem.searchController?.searchBar.frame.size.height)
-        print(tableView.frame)
-
-        
-        print("SelectCities \(forecasts)")
 //        tableView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: (navigationItem.searchController?.searchBar.frame.size.height)!).isActive = true
         
         //Show search bar
@@ -75,6 +68,17 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //TODO: - TODO
+        if segue.identifier == "ShowCityWeather" {
+            let controller = segue.destination as! CityDetailViewController
+            controller.cityName = self.selectedCity
+            controller.dataController = self.dataController
+            controller.getDetailWeather(selectedCity)
+        }
         
     }
     
@@ -149,74 +153,18 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let selectedCell = tableView.cellForRow(at: indexPath)
         
         let city = selectedCell?.textLabel?.text!
         selectedCity = city!
         
-        let params : [String : String] = ["q" : city!, "appid" : Settings.shared.APP_ID]
-
-        self.getWeatherJSON(url: Settings.shared.WEATHER_FORECAST_URL, parameters: params) { (json) -> (Void) in
-            
-            self.weatherJSON = json
-            
-//            DispatchQueue.main.async {
-//                self.navigationItem.title = WeatherForecast.getCityName(json)
-//            }
-            
-//            let list = WeatherForecast.getJSONObjList(json)
-//            let dict = WeatherForecast.getSeparateForecastListFrom(list)
-//            self.rawForecasts = WeatherForecast.getRawWeatherDataFrom(dict)
-//            self.forecasts = WeatherForecast.getForecast(self.rawForecasts)
-//            let temp = self.forecasts.ordered()
-//            for item in temp {
-////                print(item.date)
-//            }
-//            print(self.forecasts)
-//            print(self.rawForecasts)
-//            print(self.weatherJSON)
-        }
-            
-//            print("JSON IS \(self.weatherJSON)")
-
-
-        
-        return indexPath
-        
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let selectedCell = tableView.cellForRow(at: indexPath)
-        
-        let city = selectedCell?.textLabel?.text!
-                
-        let params : [String : String] = ["q" : city!, "appid" : Settings.shared.APP_ID]
-        
-//        print("JSON from did IS \(self.weatherJSON)")
-
-        
-//        let JSONWeather = Networking.getWeatherJSON(url: Settings.shared.WEATHER_FORECAST_URL, parameters: params)
-        
         performSegue(withIdentifier: "ShowCityWeather", sender: nil)
         searchController.searchBar.resignFirstResponder()
-        //        selectedCell?.contentView.backgroundColor
-        
-        
-        
+
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //TODO: - TODO
-        if segue.identifier == "ShowCityWeather" {
-            let controller = segue.destination as! CityDetailViewController
-            controller.getDetailWeather(selectedCity)
-        }
-        
-    }
-    
+
     //MARK: - Helper methods
     func generateWordsDict() {
         for city in cities {
@@ -283,8 +231,6 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     
     //MARK: Networking
     
-
-    
     //MARK: Searchbar helper methods
     func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
@@ -308,48 +254,9 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     
 }
 
-
 extension SelectCityViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
 }
-
-extension SelectCityViewController {
-    
-    func getWeatherJSON(url: String, parameters: [String: String], complition: @escaping (JSON) -> (Void)) -> JSON? {
-        
-        var weatherJSON: JSON?
-        
-        Alamofire.request(url, method: .get, parameters: parameters).responseJSON { (response) in
-            
-            if response.result.isSuccess {
-                
-                print("Success! Got the weather data")
-                weatherJSON = JSON(response.result.value!)
-                //
-                //                let cityName = WeatherForecast.getCityName(weatherJSON!)
-                //                print(cityName)
-                //                let list = WeatherForecast.getJSONObjList(weatherJSON!)
-                //                //                print("list is \(list)")
-                //                let dict = WeatherForecast.getSeparateForecastListFrom(list)
-                ////                print("dict is \(dict)")
-                //                let rawWeatherArr = WeatherForecast.getRawWeatherDataFrom(dict)
-                //                print(rawWeatherArr)
-                //                print(weatherJSON)
-                complition(weatherJSON!)
-            } else {
-                
-                print("Error \(String(describing: response.result.error))")
-                
-            }
-            
-        }
-        
-        return weatherJSON
-        
-    }
-    
-}
-

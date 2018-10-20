@@ -12,13 +12,13 @@ import Alamofire
 
 protocol GetWeatherJSON {
     
-        func getWeatherJSON(url: String, parameters: [String: String], complition: @escaping (JSON) -> (Void)) -> JSON?
+        func getWeatherJSON(url: String, parameters: [String: String], complition: @escaping (JSON) -> (Void))
     
 }
 
 extension GetWeatherJSON {
     
-    func getWeatherJSON(url: String, parameters: [String: String], complition: @escaping (JSON) -> (Void)) -> JSON? {
+    func getWeatherJSON(url: String, parameters: [String: String], complition: @escaping (JSON) -> (Void)) {
         
         var weatherJSON: JSON?
         
@@ -37,8 +37,6 @@ extension GetWeatherJSON {
             }
             
         }
-        
-        return weatherJSON
         
     }
     
