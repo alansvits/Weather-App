@@ -234,4 +234,10 @@ extension CitiesViewController: CityDetailViewControllerDelegate {
         navigationController?.popViewController(animated: true)
     }
     
+    func cityDetailViewController(_ controller: CityDetailViewController, didAdd forecast: WeatherForecast) {
+        
+        navigationController?.popToRootViewController(animated: true)
+        
+    }
+    
 }

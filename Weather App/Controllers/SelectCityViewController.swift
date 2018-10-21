@@ -32,6 +32,9 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     var filteredCitiesSection = [String]()
     var filteredCitiesDictionary = [String : [String]]()
     
+    @IBAction func backButtonPressed(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -74,6 +77,8 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
             controller.dataController = self.dataController
             controller.getDetailWeather(selectedCity)
             controller.navigationItem.rightBarButtonItem?.image = UIImage(imageLiteralResourceName: "plus_icon")
+            controller.isPlusMode = true
+            controller.delegate = navigationController?.viewControllers[0] as! CitiesViewController
         }
         
     }

@@ -365,10 +365,9 @@
                         <viewLayoutGuide key="safeArea" id="GJA-UM-Tca"/>
                     </view>
                     <navigationItem key="navigationItem" title="City" id="RHv-Xx-JSD">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="back" id="Zds-kI-RNx">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="back" id="S65-UA-dac">
                             <connections>
-                                <action selector="backToCitiesScreenButton:" destination="abe-KH-aS2" id="l4A-aY-byu"/>
-                                <segue destination="N9i-r9-WIn" kind="show" identifier="ShowCities" id="bLS-6K-onu"/>
+                                <action selector="backButtonPressed:" destination="abe-KH-aS2" id="FYm-gK-tNb"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="trash" id="Uk9-tY-YNl">
@@ -443,6 +442,11 @@
                         <viewLayoutGuide key="safeArea" id="93u-Zb-0uo"/>
                     </view>
                     <navigationItem key="navigationItem" title="Select City" id="V6a-My-74l">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="back" id="uW5-rW-hRV">
+                            <connections>
+                                <action selector="backButtonPressed:" destination="8GV-ve-bUy" id="kLh-Cg-3WO"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="Geo mark" id="eiJ-dC-Lhk" userLabel="Geo mark">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </barButtonItem>
@@ -455,7 +459,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JCT-E1-r0T" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1829" y="863"/>
+            <point key="canvasLocation" x="1630" y="829"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8dQ-3v-dhr">
@@ -493,7 +497,6 @@
         <image name="umbrella" width="30" height="34"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ooc-P9-b3g"/>
-        <segue reference="bLS-6K-onu"/>
+        <segue reference="Fwi-VH-hCz"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -11,6 +11,12 @@ import CoreData
 
 protocol CityDetailViewControllerDelegate: class {
     func cityDetailViewController(_ controller: CityDetailViewController, didDelete forecast: WeatherForecast)
+    func cityDetailViewController(_ controller: CityDetailViewController, didAdd forecast: WeatherForecast)
+}
+
+extension CityDetailViewControllerDelegate {
+    func cityDetailViewController(_ controller: CityDetailViewController, didAdd forecast: WeatherForecast) { }
+    func cityDetailViewController(_ controller: CityDetailViewController, didDelete forecast: WeatherForecast) { }
 }
 
 class CityDetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, JSONWeatherParsingProtocol, GetWeatherJSON, ConvertToNSManagedObject {
@@ -35,6 +41,9 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     //Weather the first cell should be selected
     var isSelected = false
     
+    //Show plus bar button flag
+    var isPlusMode = false
+    
     let reuseIdentifier = "ForecastCell"
     
     let columnLayout = ColumnFlowLayout(
@@ -44,13 +53,29 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     )
     
+    @IBAction func backButtonPressed(_ sender: Any) {
+        if let forecastToRemove = weatherForecast, !isPlusMode == true {
+            dataController.viewContext.delete(forecastToRemove)
+            
+            do {
+                try dataController.viewContext.save()
+            } catch let error as NSError {
+                print("Saving error: \(error), description: \(error.userInfo)")
+            }
+        }
+        navigationController?.popViewController(animated: true)
+    }
+    
     @IBAction func deleteCity(_ sender: Any) {
         print("Tapped DELETE")
         if let weatherToRemove = weatherForecast {
-            delegate?.cityDetailViewController(self, didDelete: weatherToRemove)
+            if !isPlusMode { delegate?.cityDetailViewController(self, didDelete: weatherToRemove) }
+            if isPlusMode { delegate?.cityDetailViewController(self, didAdd: weatherToRemove) }
         } else {
             print("WeatherForecast is \(String(describing: weatherForecast))")
         }
+        
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
