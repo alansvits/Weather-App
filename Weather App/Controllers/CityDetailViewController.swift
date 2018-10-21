@@ -54,7 +54,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     )
     
     @IBAction func backButtonPressed(_ sender: Any) {
-        if let forecastToRemove = weatherForecast, !isPlusMode == true {
+        if let forecastToRemove = weatherForecast, isPlusMode == true {
             dataController.viewContext.delete(forecastToRemove)
             
             do {
@@ -106,6 +106,10 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         } else {
             print("Cannot fetch weather for \(String(describing: cityName))")
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        isPlusMode = false
     }
     
     // MARK: UICollectionViewDataSource
