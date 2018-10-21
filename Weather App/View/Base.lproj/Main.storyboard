@@ -371,8 +371,7 @@
                                 <segue destination="N9i-r9-WIn" kind="show" identifier="ShowCities" id="bLS-6K-onu"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="Uk9-tY-YNl">
-                            <color key="tintColor" red="0.12156862745098039" green="0.14117647058823529" blue="0.15294117647058825" alpha="1" colorSpace="calibratedRGB"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="trash" id="Uk9-tY-YNl">
                             <connections>
                                 <action selector="deleteCity:" destination="abe-KH-aS2" id="0tA-Qm-DQ8"/>
                             </connections>
@@ -490,6 +489,7 @@
         <image name="cloud_sun_big" width="269" height="192"/>
         <image name="sun_main_screen" width="43" height="43"/>
         <image name="sun_small" width="31" height="31"/>
+        <image name="trash" width="23" height="24"/>
         <image name="umbrella" width="30" height="34"/>
     </resources>
     <inferredMetricsTieBreakers>
