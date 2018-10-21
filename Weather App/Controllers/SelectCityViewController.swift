@@ -73,6 +73,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
             controller.cityName = self.selectedCity
             controller.dataController = self.dataController
             controller.getDetailWeather(selectedCity)
+            controller.navigationItem.rightBarButtonItem?.image = UIImage(imageLiteralResourceName: "plus_icon")
         }
         
     }
