@@ -56,16 +56,16 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         forecastCollectionView.contentInsetAdjustmentBehavior = .always
         
         forecastCollectionView.allowsMultipleSelection = false
-        weatherForecast = fetchWeatherFor(cityName)
+//        weatherForecast = fetchWeatherFor(cityName)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let weatherForecast = weatherForecast {
-            updateDetailWeatherUI(weatherForecast)
-        } else {
-            print("Cannot fetch weather for \(String(describing: cityName))")
-        }
+//        if let weatherForecast = weatherForecast {
+//            updateDetailWeatherUI(weatherForecast)
+//        } else {
+//            print("Cannot fetch weather for \(String(describing: cityName))")
+//        }
     }
     
     // MARK: UICollectionViewDataSource
@@ -132,12 +132,12 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             DispatchQueue.main.async {
                 self.navigationItem.title = cityName
             }
-            
+            print(json)
             let listWithForecasts = self.getJSONObjList(json)
             let separetedFor5DaysList = self.getSeparateForecastListFrom(listWithForecasts)
             let rawWeatherDataList = self.getRawWeatherDataFrom(separetedFor5DaysList)
             let forecast = self.getForecast(rawWeatherDataList, for: cityName).ordered()
-            
+
             self.createForecastsEntityFrom(forecast, for: city, in: self.dataController.viewContext)
             self.weatherForecast = self.fetchWeatherFor(cityName)
             self.updateDetailWeatherUI(self.weatherForecast!)

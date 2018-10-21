@@ -66,11 +66,6 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //TODO: - TODO
         if segue.identifier == "ShowCityWeather" {
@@ -153,14 +148,18 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         
         let selectedCell = tableView.cellForRow(at: indexPath)
-        
         let city = selectedCell?.textLabel?.text!
         selectedCity = city!
+        return indexPath
         
-        performSegue(withIdentifier: "ShowCityWeather", sender: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+//        performSegue(withIdentifier: "ShowCityWeather", sender: nil)
         searchController.searchBar.resignFirstResponder()
 
     }
