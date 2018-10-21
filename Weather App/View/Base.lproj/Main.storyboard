@@ -373,6 +373,9 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="trash" id="Uk9-tY-YNl">
                             <color key="tintColor" red="0.12156862745098039" green="0.14117647058823529" blue="0.15294117647058825" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="deleteCity:" destination="abe-KH-aS2" id="0tA-Qm-DQ8"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>

@@ -102,6 +102,7 @@ class CitiesViewController: UICollectionViewController   {
         let cityName = cell.cityLabel.text
         selectedCityName = cityName
         let vc = storyboard?.instantiateViewController(withIdentifier: "CityDetailWeather") as! CityDetailViewController
+        vc.delegate = self
         vc.cityName = cityName
         vc.navigationItem.title = cityName
         vc.dataController = dataController
@@ -210,6 +211,27 @@ extension CitiesViewController: NSFetchedResultsControllerDelegate {
             break
         }
         
+    }
+    
+}
+
+//MARK: - CityDetailViewControllerDelegate methods
+extension CitiesViewController: CityDetailViewControllerDelegate {
+    
+    func cityDetailViewController(_ controller: CityDetailViewController, didDelete forecast: WeatherForecast) {
+        
+        self.dataController.viewContext.delete(forecast)
+        
+        do {
+            try self.dataController.viewContext.save()
+            print("delete tapped, context saved")
+        } catch let error as NSError {
+            print("Saving error: \(error), description: \(error.userInfo)")
+        }
+        
+        collectionView.reloadData()
+        
+        navigationController?.popViewController(animated: true)
     }
     
 }

@@ -9,11 +9,11 @@
 import UIKit
 import CoreData
 
+protocol CityDetailViewControllerDelegate: class {
+    func cityDetailViewController(_ controller: CityDetailViewController, didDelete forecast: WeatherForecast)
+}
+
 class CityDetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, JSONWeatherParsingProtocol, GetWeatherJSON, ConvertToNSManagedObject {
-    
-    var dataController: DataController!
-    
-    var cityName: String!
     
     @IBOutlet weak var forecastCollectionView: UICollectionView!
     
@@ -23,6 +23,12 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var windSpeedLabel: UILabel!
     @IBOutlet weak var rainChanceLabel: UILabel!
     @IBOutlet weak var humidityPersentageLabel: UILabel!
+    
+    weak var delegate: CityDetailViewControllerDelegate?
+    
+    var dataController: DataController!
+    
+    var cityName: String!
     
     var weatherForecast: WeatherForecast?
     
@@ -37,6 +43,15 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         minimumLineSpacing: 3,
         sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     )
+    
+    @IBAction func deleteCity(_ sender: Any) {
+        print("Tapped DELETE")
+        if let weatherToRemove = weatherForecast {
+            delegate?.cityDetailViewController(self, didDelete: weatherToRemove)
+        } else {
+            print("WeatherForecast is \(String(describing: weatherForecast))")
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -56,7 +71,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         forecastCollectionView.contentInsetAdjustmentBehavior = .always
         
         forecastCollectionView.allowsMultipleSelection = false
-//        weatherForecast = fetchWeatherFor(cityName)
+        //        weatherForecast = fetchWeatherFor(cityName)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -114,7 +129,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             rainChanceLabel.text = "\(oneDayForecast.getRainChance())" + " %"
             
         }
-
+        
     }
     
     //TODO: - METHODS TO GET JSON AND OTHER-
@@ -137,7 +152,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             let separetedFor5DaysList = self.getSeparateForecastListFrom(listWithForecasts)
             let rawWeatherDataList = self.getRawWeatherDataFrom(separetedFor5DaysList)
             let forecast = self.getForecast(rawWeatherDataList, for: cityName).ordered()
-
+            
             self.createForecastsEntityFrom(forecast, for: city, in: self.dataController.viewContext)
             self.weatherForecast = self.fetchWeatherFor(cityName)
             self.updateDetailWeatherUI(self.weatherForecast!)
