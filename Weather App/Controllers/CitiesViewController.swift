@@ -79,6 +79,8 @@ class CitiesViewController: UICollectionViewController   {
         return fetchResultsController.sections?[section].numberOfObjects ?? 0
     }
     
+    //FIXME: - CRASH WHEN FAST SCROLL DOWN: error: NSFetchedResultsController: no object at index 15 in section at index 0 -
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CityCell
         
@@ -237,6 +239,7 @@ extension CitiesViewController: CityDetailViewControllerDelegate {
     func cityDetailViewController(_ controller: CityDetailViewController, didAdd forecast: WeatherForecast) {
         
         navigationController?.popToRootViewController(animated: true)
+        collectionView.reloadData()
         
     }
     
