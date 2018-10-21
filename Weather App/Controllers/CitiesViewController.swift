@@ -64,12 +64,6 @@ class CitiesViewController: UICollectionViewController   {
             controller.dataController = dataController
         }
         
-//        if segue.identifier == "ShowCityDetailWeather" {
-//            let controller = segue.destination as! CityDetailViewController
-//            controller.dataController = dataController
-//            controller.weatherForecast = controller.fetchWeatherFor(selectedCityName!)
-//        }
-        
     }
     
     // MARK: UICollectionViewDataSource
