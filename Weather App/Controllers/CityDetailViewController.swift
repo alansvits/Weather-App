@@ -61,11 +61,11 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        if let weatherForecast = weatherForecast {
-//            updateDetailWeatherUI(weatherForecast)
-//        } else {
-//            print("Cannot fetch weather for \(String(describing: cityName))")
-//        }
+        if let weatherForecast = weatherForecast {
+            updateDetailWeatherUI(weatherForecast)
+        } else {
+            print("Cannot fetch weather for \(String(describing: cityName))")
+        }
     }
     
     // MARK: UICollectionViewDataSource

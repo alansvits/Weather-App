@@ -15,6 +15,8 @@ class CitiesViewController: UICollectionViewController   {
     
     var fetchResultsController: NSFetchedResultsController<WeatherForecast>!
     
+    var selectedCityName: String?
+    
     let reuseIdentifier = "CityCell"
     fileprivate let itemsPerRow: CGFloat = 3
     
@@ -61,6 +63,13 @@ class CitiesViewController: UICollectionViewController   {
             let controller = segue.destination as! SelectCityViewController
             controller.dataController = dataController
         }
+        
+//        if segue.identifier == "ShowCityDetailWeather" {
+//            let controller = segue.destination as! CityDetailViewController
+//            controller.dataController = dataController
+//            controller.weatherForecast = controller.fetchWeatherFor(selectedCityName!)
+//        }
+        
     }
     
     // MARK: UICollectionViewDataSource
@@ -91,6 +100,21 @@ class CitiesViewController: UICollectionViewController   {
         cell.backgroundColor = UIColor(hex: "1F2427")
         
         return cell
+    }
+    
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! CityCell
+        let cityName = cell.cityLabel.text
+        selectedCityName = cityName
+        let vc = storyboard?.instantiateViewController(withIdentifier: "CityDetailWeather") as! CityDetailViewController
+        vc.cityName = cityName
+        vc.navigationItem.title = cityName
+        vc.dataController = dataController
+        vc.weatherForecast = vc.fetchWeatherFor(selectedCityName!)
+        navigationController?.pushViewController(vc, animated: true)
+        
+        
     }
     
     //MARK: - Helper methods
