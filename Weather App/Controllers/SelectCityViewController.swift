@@ -50,6 +50,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         searchController.searchBar.barTintColor = UIColor(hex: "191D20")
         let textFieldInsideSearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideSearchBar?.backgroundColor = UIColor(hex: "1F2427")
+        textFieldInsideSearchBar?.keyboardType = .asciiCapable
         
         generateWordsDict()
         generateWordsDictFromFiltered()
