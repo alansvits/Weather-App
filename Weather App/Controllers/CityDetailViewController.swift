@@ -181,15 +181,23 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             DispatchQueue.main.async {
                 self.navigationItem.title = cityName
             }
+            
             print(json)
             let listWithForecasts = self.getJSONObjList(json)
             let separetedFor5DaysList = self.getSeparateForecastListFrom(listWithForecasts)
             let rawWeatherDataList = self.getRawWeatherDataFrom(separetedFor5DaysList)
             let forecast = self.getForecast(rawWeatherDataList, for: cityName).ordered()
             
+            self.deletePreviousEntityWith(cityName, in: self.dataController.viewContext)
+            
             self.createForecastsEntityFrom(forecast, for: cityName.capitalizingFirstLetter(), in: self.dataController.viewContext)
-            self.weatherForecast = self.fetchWeatherFor(cityName.lowercased())
-            self.updateDetailWeatherUI(self.weatherForecast!)
+            guard let tempForecast = self.fetchWeatherFor(cityName) else {
+                print("Cannot fetch forecast")
+                return
+            }
+            self.weatherForecast = tempForecast
+            
+            self.updateDetailWeatherUI(tempForecast)
             
         }
         

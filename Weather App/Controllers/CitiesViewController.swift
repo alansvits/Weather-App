@@ -149,6 +149,7 @@ class CitiesViewController: UICollectionViewController   {
         
         do {
             try fetchResultsController.performFetch()
+            print("fetchResultsController.performFetch() are \(fetchResultsController.fetchedObjects)")
         } catch {
             fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }
@@ -286,6 +287,7 @@ extension CitiesViewController: CLLocationManagerDelegate {
             vc.dataController = self.dataController
             let lat = String(location.coordinate.latitude)
             let lon = String(location.coordinate.longitude)
+            
             vc.getDetailWeather(["lat": lat, "lon": lon])
             vc.isPlusMode = true
             vc.navigationItem.rightBarButtonItem?.image = UIImage(imageLiteralResourceName: "plus_icon")
