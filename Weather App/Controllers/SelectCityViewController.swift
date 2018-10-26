@@ -76,7 +76,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
             let controller = segue.destination as! CityDetailViewController
             controller.cityName = self.selectedCity
             controller.dataController = self.dataController
-            controller.getDetailWeather(selectedCity)
+            controller.getDetailWeather(["q": selectedCity])
             controller.navigationItem.rightBarButtonItem?.image = UIImage(imageLiteralResourceName: "plus_icon")
             controller.isPlusMode = true
             controller.delegate = navigationController?.viewControllers[0] as! CitiesViewController

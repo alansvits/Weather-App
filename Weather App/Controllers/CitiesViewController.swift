@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 class CitiesViewController: UICollectionViewController   {
     
@@ -16,6 +17,8 @@ class CitiesViewController: UICollectionViewController   {
     var fetchResultsController: NSFetchedResultsController<WeatherForecast>!
     
     var selectedCityName: String?
+    
+    var locationManager: CLLocationManager?
     
     let reuseIdentifier = "CityCell"
     fileprivate let itemsPerRow: CGFloat = 3
@@ -37,7 +40,7 @@ class CitiesViewController: UICollectionViewController   {
             
             if let cities = UserDefaults.standard.array(forKey: "defaultCities") as? [String] {
                 for city in cities {
-                    getWeatherForecastFor(city)
+                    getWeatherForecastFor(["q": city])
                     print("Weather for \(city) is received")
                 }
             }
@@ -66,7 +69,26 @@ class CitiesViewController: UICollectionViewController   {
         
     }
     
-    // MARK: UICollectionViewDataSource
+    //MARK: - My location functionality
+    
+    @IBAction func myLocationButtonPressed(_ sender: Any) {
+        
+        print("myLocationButtonPressed is pressed")
+        setUpMyLocation()
+        
+    }
+    
+    func setUpMyLocation() {
+        
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.desiredAccuracy = kCLLocationAccuracyKilometer
+        locationManager?.requestWhenInUseAuthorization()
+        locationManager?.startUpdatingLocation()
+        
+    }
+    
+    // MARK: - UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -172,9 +194,12 @@ extension CitiesViewController: UICollectionViewDelegateFlowLayout {
 
 extension CitiesViewController: JSONWeatherParsingProtocol, ConvertToNSManagedObject, GetWeatherJSON {
     
-    func getWeatherForecastFor(_ city: String) {
+    func getWeatherForecastFor(_ parameters: [String: String]) {
         
-        let params : [String : String] = ["q" : city, "appid" : Settings.shared.APP_ID, "units": "metric"]
+        var params : [String : String] = ["appid" : Settings.shared.APP_ID, "units": "metric"]
+        for item in parameters {
+            params.updateValue(item.value, forKey: item.key)
+        }
         
         getWeatherJSON(url: Settings.shared.WEATHER_FORECAST_URL, parameters: params) { (json) -> (Void) in
             
@@ -191,7 +216,7 @@ extension CitiesViewController: JSONWeatherParsingProtocol, ConvertToNSManagedOb
             let forecast = self.getForecast(rawWeatherDataList, for: cityName).ordered()
             
             DispatchQueue.main.async {
-                self.createForecastsEntityFrom(forecast, for: city, in: self.dataController.viewContext)
+                self.createForecastsEntityFrom(forecast, for: cityName.capitalizingFirstLetter(), in: self.dataController.viewContext)
             }
             
         }
@@ -241,6 +266,36 @@ extension CitiesViewController: CityDetailViewControllerDelegate {
         navigationController?.popToRootViewController(animated: true)
         collectionView.reloadData()
         
+    }
+    
+}
+
+//MARK: - Location Manager Delegate Methods
+
+extension CitiesViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        let location = locations[locations.count - 1]
+        if location.horizontalAccuracy > 0 {
+            self.locationManager?.stopUpdatingLocation()
+            print("longitude = \(location.coordinate.longitude), latitude = \(location.coordinate.latitude)")
+            
+            let vc = storyboard?.instantiateViewController(withIdentifier: "CityDetailWeather") as! CityDetailViewController
+            vc.delegate = self
+            vc.dataController = self.dataController
+            let lat = String(location.coordinate.latitude)
+            let lon = String(location.coordinate.longitude)
+            vc.getDetailWeather(["lat": lat, "lon": lon])
+            vc.isPlusMode = true
+            vc.navigationItem.rightBarButtonItem?.image = UIImage(imageLiteralResourceName: "plus_icon")
+            navigationController?.pushViewController(vc, animated: true)
+            
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
     }
     
 }

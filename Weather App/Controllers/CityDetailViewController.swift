@@ -162,9 +162,12 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     //TODO: - METHODS TO GET JSON AND OTHER-
-    func getDetailWeather(_ city: String) {
+    func getDetailWeather(_ parameters: [String: String]) {
         
-        let params : [String : String] = ["q" : city, "appid" : Settings.shared.APP_ID, "units": "metric"]
+        var params : [String : String] = ["appid" : Settings.shared.APP_ID, "units": "metric"]
+        for item in parameters {
+            params.updateValue(item.value, forKey: item.key)
+        }
         
         getWeatherJSON(url: Settings.shared.WEATHER_FORECAST_URL, parameters: params) { (json) -> (Void) in
             
@@ -172,6 +175,8 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
                 print("Cannot get city name from json")
                 return
             }
+            
+            self.cityName = cityName
             
             DispatchQueue.main.async {
                 self.navigationItem.title = cityName
@@ -182,7 +187,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             let rawWeatherDataList = self.getRawWeatherDataFrom(separetedFor5DaysList)
             let forecast = self.getForecast(rawWeatherDataList, for: cityName).ordered()
             
-            self.createForecastsEntityFrom(forecast, for: city, in: self.dataController.viewContext)
+            self.createForecastsEntityFrom(forecast, for: cityName.capitalizingFirstLetter(), in: self.dataController.viewContext)
             self.weatherForecast = self.fetchWeatherFor(cityName)
             self.updateDetailWeatherUI(self.weatherForecast!)
             
