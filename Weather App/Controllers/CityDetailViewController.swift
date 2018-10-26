@@ -188,7 +188,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             let forecast = self.getForecast(rawWeatherDataList, for: cityName).ordered()
             
             self.createForecastsEntityFrom(forecast, for: cityName.capitalizingFirstLetter(), in: self.dataController.viewContext)
-            self.weatherForecast = self.fetchWeatherFor(cityName)
+            self.weatherForecast = self.fetchWeatherFor(cityName.lowercased())
             self.updateDetailWeatherUI(self.weatherForecast!)
             
         }

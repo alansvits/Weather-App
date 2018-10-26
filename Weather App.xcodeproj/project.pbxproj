@@ -27,7 +27,6 @@
 		64FA4C44216BB42E00A13CFE /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA4C43216BB42E00A13CFE /* Date+Extension.swift */; };
 		64FA4C46216BBD6500A13CFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64FA4C45216BBD6500A13CFE /* Assets.xcassets */; };
 		64FA5CB6216A0926005928A0 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA5CB5216A0926005928A0 /* WeatherData.swift */; };
-		64FA5CB8216A302B005928A0 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA5CB7216A302B005928A0 /* Networking.swift */; };
 		64FA5CBA216A4EC6005928A0 /* WeatherForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA5CB9216A4EC6005928A0 /* WeatherForecast.swift */; };
 		64FA5CBC216A58A5005928A0 /* String+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA5CBB216A58A5005928A0 /* String+Extention.swift */; };
 		64FA5CBE216A8ADC005928A0 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA5CBD216A8ADC005928A0 /* Array+Extension.swift */; };
@@ -61,7 +60,6 @@
 		64FA4C43216BB42E00A13CFE /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		64FA4C45216BBD6500A13CFE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64FA5CB5216A0926005928A0 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
-		64FA5CB7216A302B005928A0 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		64FA5CB9216A4EC6005928A0 /* WeatherForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecast.swift; sourceTree = "<group>"; };
 		64FA5CBB216A58A5005928A0 /* String+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extention.swift"; sourceTree = "<group>"; };
 		64FA5CBD216A8ADC005928A0 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
@@ -109,7 +107,6 @@
 				64F5C089216519D800CF0CF7 /* UIColor+Extension.swift */,
 				64FAA1EE2167B43E0004B8EF /* Settings.swift */,
 				64893A6221655167008FAB0C /* ColumnFlowLayout.swift */,
-				64FA5CB7216A302B005928A0 /* Networking.swift */,
 				64FA5CBB216A58A5005928A0 /* String+Extention.swift */,
 				64FA5CBD216A8ADC005928A0 /* Array+Extension.swift */,
 				64FA4C43216BB42E00A13CFE /* Date+Extension.swift */,
@@ -308,7 +305,6 @@
 				64FA6358216D03F000515ABE /* GetWeatherJSON.swift in Sources */,
 				64F39B7E2163D2580075E1AE /* CitiesViewController.swift in Sources */,
 				64F39B86216402FD0075E1AE /* CityDetailViewController.swift in Sources */,
-				64FA5CB8216A302B005928A0 /* Networking.swift in Sources */,
 				640175752174EDC600CF976E /* DataController.swift in Sources */,
 				64F39B712163C9EC0075E1AE /* Weather_App.xcdatamodeld in Sources */,
 				64FA4C44216BB42E00A13CFE /* Date+Extension.swift in Sources */,

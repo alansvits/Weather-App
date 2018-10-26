@@ -9,17 +9,6 @@
 import Foundation
 import SwiftyJSON
 
-struct ResponseData: Decodable {
-    var cities: [City]
-}
-
-struct City: Codable {
-    let country: String
-    let name: String
-    let lat: String
-    let lng: String
-}
-
 class Settings {
     
     static let shared = Settings()

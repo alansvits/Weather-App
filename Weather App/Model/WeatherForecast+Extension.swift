@@ -33,7 +33,7 @@ extension WeatherForecast {
     }
     
     func getWeatherOrdered() -> [Weather]? {
-        var weatherArray = Array(self.weathers!) as! [Weather]
+        let weatherArray = Array(self.weathers!) as! [Weather]
         return weatherArray.sorted(by: { (item1, item2) -> Bool in
             return item1.date?.compare(item2.date!) == .orderedAscending
         })
