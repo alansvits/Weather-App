@@ -104,6 +104,7 @@ class CitiesViewController: UICollectionViewController   {
     //FIXME: - CRASH WHEN FAST SCROLL DOWN: error: NSFetchedResultsController: no object at index 15 in section at index 0 -
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CityCell
         
         let weatherForecast =  fetchResultsController.object(at: indexPath)
@@ -122,6 +123,15 @@ class CitiesViewController: UICollectionViewController   {
     
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let weatherForecast =  fetchResultsController.object(at: indexPath)
+        guard let todayForecast = weatherForecast.getForecastFor(Date()) else {
+            print("No todayForecast for \(String(describing: weatherForecast.city))")
+            return 
+        }
+        let orderedWeather = weatherForecast.getWeatherOrdered()
+        let indexOfTodaysWeather = orderedWeather?.firstIndex(of: todayForecast)
+        
         let cell = collectionView.cellForItem(at: indexPath) as! CityCell
         let cityName = cell.cityLabel.text
         selectedCityName = cityName
@@ -130,6 +140,7 @@ class CitiesViewController: UICollectionViewController   {
         vc.cityName = cityName
         vc.navigationItem.title = cityName
         vc.dataController = dataController
+        vc.indexOfSelectedCell = indexOfTodaysWeather ?? 0
         vc.weatherForecast = vc.fetchWeatherFor(selectedCityName!)
         navigationController?.pushViewController(vc, animated: true)
         
@@ -149,7 +160,6 @@ class CitiesViewController: UICollectionViewController   {
         
         do {
             try fetchResultsController.performFetch()
-            print("fetchResultsController.performFetch() are \(fetchResultsController.fetchedObjects)")
         } catch {
             fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }

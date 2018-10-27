@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 extension WeatherForecast {
-    
+        
     func getForecastFor(_ today: Date) -> Weather? {
         
         let today = Date()

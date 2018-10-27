@@ -41,6 +41,8 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     //Weather the first cell should be selected
     var isSelected = false
     
+    var indexOfSelectedCell = 0
+    
     //Show plus bar button flag
     var isPlusMode = false
     
@@ -136,7 +138,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
             cell.precipitationForecastImage.image = UIImage(imageLiteralResourceName: forecast[indexPath.row].getSmallWeatherIcon())
             cell.tempForecastLabel.text = String(forecast[indexPath.row].tempature) + " \u{00B0}"
             
-            forecastCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: [])
+            forecastCollectionView.selectItem(at: IndexPath(item: self.indexOfSelectedCell, section: 0), animated: true, scrollPosition: [])
             
         }
         cell.backgroundColor = UIColor(hex: "1F2427")
