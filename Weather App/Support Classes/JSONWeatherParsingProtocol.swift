@@ -71,49 +71,13 @@ extension JSONWeatherParsingProtocol {
     func getRawWeatherDataFrom(_ list: [String: [JSON]]) -> [RawWeatherData] {
         
         var rawWeatherDataList = [RawWeatherData]()
-        var rawData = RawWeatherData()
+        let rawData = RawWeatherData()
         
         for item in list {
             
             rawWeatherDataList.append(item.value.extractRawWeatherData(rawData))
             
         }
-        
-//        var key = ""
-//        for item in list {
-//
-//            if key == "" { key = item.key }
-//
-//            for json in item.value {
-//
-//                if key != item.key {
-//                    rawWeatherDataList.append(rawData)
-//                    rawData = RawWeatherData()
-//                    key = item.key
-//
-//                    rawData.date = json["dt_txt"].stringValue.getDate()
-//                    rawData.humidityArray.append(json["main"]["humidity"].intValue)
-//                    rawData.pressureArray.append(Int(json["main"]["pressure"].floatValue))
-//                    rawData.skyConditionArraay.append(json["weather"][0]["id"].intValue)
-//                    rawData.tempArray.append(Int(json["main"]["temp"].floatValue))
-//                    rawData.windArray.append(json["wind"]["speed"].floatValue)
-//
-//
-//                } else {
-//
-//                    rawData.date = json["dt_txt"].stringValue.getDate()
-//                    rawData.humidityArray.append(json["main"]["humidity"].intValue)
-//                    rawData.pressureArray.append(Int(json["main"]["pressure"].floatValue))
-//                    rawData.skyConditionArraay.append(json["weather"][0]["id"].intValue)
-//                    rawData.tempArray.append(Int(json["main"]["temp"].floatValue))
-//                    rawData.windArray.append(json["wind"]["speed"].floatValue)
-//
-//
-//                }
-//
-//            }
-//
-//        }
         
         return rawWeatherDataList
         
@@ -130,8 +94,14 @@ extension JSONWeatherParsingProtocol {
             forecastsArray.append(forecast)
             
         }
-        
-        return forecastsArray
+
+        var forecastsArrayOrdered = forecastsArray.ordered()
+        if forecastsArrayOrdered.count == 6 {
+            forecastsArrayOrdered.removeLast()
+            return forecastsArrayOrdered
+        } else {
+            return forecastsArray
+        }
         
     }
     
