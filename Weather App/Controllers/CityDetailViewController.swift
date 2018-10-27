@@ -147,7 +147,7 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     //MARK: - UICollectionViewDelegate METHODS
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if let forecast = weatherForecast?.getWeatherOrdered() {
@@ -225,20 +225,12 @@ extension CityDetailViewController {
             return nil
         }
     }
-    
-    //Select first cell after transition from select city VC
-    func selectFirstCell() {
-        
-        self.forecastCollectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: true, scrollPosition: [])
-        forecastCollectionView.reloadData()
-        
-    }
-    
+
     //Update detail weather ui
     func  updateDetailWeatherUI(_ forecast: WeatherForecast) {
         
         if let forecast = forecast.getWeatherOrdered() {
-            let oneDayForecast = forecast[0]
+            let oneDayForecast = forecast[self.indexOfSelectedCell]
             bigWeatherUIImage.image = UIImage(imageLiteralResourceName: oneDayForecast.getBigWeatherIcon())
             tempetureUILabel.text = "\(oneDayForecast.tempature)" + " \u{2103}"
             windSpeedLabel.text = "\(oneDayForecast.windSpeed)" + " m/s"
