@@ -98,7 +98,6 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
         forecastCollectionView.contentInsetAdjustmentBehavior = .always
         
         forecastCollectionView.allowsMultipleSelection = false
-        //        weatherForecast = fetchWeatherFor(cityName)
     }
     
     override func viewWillAppear(_ animated: Bool) {

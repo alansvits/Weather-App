@@ -26,7 +26,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     let searchController = UISearchController(searchResultsController: nil)
     
     var filteredCities = [String]()
-    let cities = Settings.shared.cityNames!
+    var cities = [String]()
     var citiesSection = [String]()
     var citiesDictionary = [String : [String]]()
     var filteredCitiesSection = [String]()
@@ -43,7 +43,6 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
         
-//                                tableView.tableHeaderView = searchController.searchBar
         navigationItem.searchController = searchController
         //Set up searchbar
         searchController.hidesNavigationBarDuringPresentation = false
@@ -54,8 +53,6 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         
         generateWordsDict()
         generateWordsDictFromFiltered()
-        
-//        tableView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: (navigationItem.searchController?.searchBar.frame.size.height)!).isActive = true
         
         //Show search bar
         if #available(iOS 11.0, *) {
@@ -71,7 +68,6 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //TODO: - TODO
         if segue.identifier == "ShowCityWeather" {
             let controller = segue.destination as! CityDetailViewController
             controller.cityName = self.selectedCity
@@ -166,7 +162,6 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-//        performSegue(withIdentifier: "ShowCityWeather", sender: nil)
         searchController.searchBar.resignFirstResponder()
 
     }
@@ -243,7 +238,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
-    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+    func filterContentForSearchText(_ searchText: String, scope: String = "All", handler: (()->Void)) {
         
         filteredCities = cities.filter({( city : String) -> Bool in
             return city.lowercased().hasPrefix(searchText.lowercased())
@@ -251,7 +246,7 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         
         generateWordsDictFromFiltered()
         updateFilteredCityDictionary(with: searchText)
-        tableView.reloadData()
+        handler()
     }
     
     func isFiltering() -> Bool {
@@ -263,6 +258,10 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
 extension SelectCityViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
+        let text = searchController.searchBar.text!
+        self.filterContentForSearchText(text) {
+            tableView.reloadData()
+        }
+
     }
 }

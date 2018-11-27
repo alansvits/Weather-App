@@ -20,6 +20,8 @@ class CitiesViewController: UICollectionViewController   {
     
     var locationManager: CLLocationManager?
     
+    var citiesNamesArray: [String]?
+    
     let reuseIdentifier = "CityCell"
     fileprivate let itemsPerRow: CGFloat = 3
     
@@ -28,9 +30,7 @@ class CitiesViewController: UICollectionViewController   {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.setValue(true, forKey: "hidesShadow")
-        
-        //        getWeatherForecastFor("Kiev")
-        
+                
         //Set default cities if app was never launched
         if !Settings.isAppAlreadyLaunchedOnce() {
             
@@ -65,6 +65,7 @@ class CitiesViewController: UICollectionViewController   {
         if segue.identifier == "ShowSelectCity" {
             let controller = segue.destination as! SelectCityViewController
             controller.dataController = dataController
+            controller.cities = self.citiesNamesArray!
         }
         
     }
@@ -91,13 +92,11 @@ class CitiesViewController: UICollectionViewController   {
     // MARK: - UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return fetchResultsController.sections?.count ?? 1
     }
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return fetchResultsController.sections?[section].numberOfObjects ?? 0
     }
     
@@ -168,28 +167,22 @@ class CitiesViewController: UICollectionViewController   {
 }
 
 extension CitiesViewController: UICollectionViewDelegateFlowLayout {
-    //1
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        //2
         let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
         let availableWidth = view.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
-        //        print(paddingSpace)
-        //        print(availableWidth)
-        //        print(widthPerItem)
         return CGSize(width: ceil(widthPerItem), height: ceil(widthPerItem))
     }
     
-    //3
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
     }
     
-    // 4
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {

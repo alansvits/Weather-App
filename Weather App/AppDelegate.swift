@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     let dataController = DataController(modelName: "Weather_App")
+    let citiesNamesArray = Settings.shared.cityNames
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
@@ -24,8 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = window?.rootViewController as! UINavigationController
         let citiesViewController = navigationController.topViewController as! CitiesViewController
         citiesViewController.dataController = self.dataController
+        citiesViewController.citiesNamesArray = self.citiesNamesArray
         
-            print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
                 
         if Reachability.isConnectedToNetwork() {
             print("Connected")
