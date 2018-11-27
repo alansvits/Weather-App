@@ -183,7 +183,6 @@ class CityDetailViewController: UIViewController, UICollectionViewDataSource, UI
                 self.navigationItem.title = cityName
             }
             
-            print(json)
             let listWithForecasts = self.getJSONObjList(json)
             let separetedFor5DaysList = self.getSeparateForecastListFrom(listWithForecasts)
             let rawWeatherDataList = self.getRawWeatherDataFrom(separetedFor5DaysList)

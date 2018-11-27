@@ -27,14 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         citiesViewController.dataController = self.dataController
         citiesViewController.citiesNamesArray = self.citiesNamesArray
         
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-                
-        if Reachability.isConnectedToNetwork() {
-            print("Connected")
-        } else {
-            print("NO CONNECTION")
-        }
-        
         return true
     }
 

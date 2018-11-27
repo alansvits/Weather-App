@@ -43,6 +43,8 @@ class SelectCityViewController: UIViewController, UITableViewDelegate, UITableVi
         searchController.obscuresBackgroundDuringPresentation = false
         definesPresentationContext = true
         
+        navigationItem.rightBarButtonItem = nil
+        
         navigationItem.searchController = searchController
         //Set up searchbar
         searchController.hidesNavigationBarDuringPresentation = false

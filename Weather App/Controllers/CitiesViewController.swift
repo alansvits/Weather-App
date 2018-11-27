@@ -36,12 +36,10 @@ class CitiesViewController: UICollectionViewController   {
             
             let defaultCities = ["Kiev", "Odessa"]
             UserDefaults.standard.set(defaultCities, forKey: "defaultCities")
-            print("Default cities are set")
             
             if let cities = UserDefaults.standard.array(forKey: "defaultCities") as? [String] {
                 for city in cities {
                     getWeatherForecastFor(["q": city])
-                    print("Weather for \(city) is received")
                 }
             }
             
@@ -73,10 +71,7 @@ class CitiesViewController: UICollectionViewController   {
     //MARK: - My location functionality
     
     @IBAction func myLocationButtonPressed(_ sender: Any) {
-        
-        print("myLocationButtonPressed is pressed")
         setUpMyLocation()
-        
     }
     
     func setUpMyLocation() {
@@ -95,7 +90,6 @@ class CitiesViewController: UICollectionViewController   {
         return fetchResultsController.sections?.count ?? 1
     }
     
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fetchResultsController.sections?[section].numberOfObjects ?? 0
     }
@@ -108,7 +102,6 @@ class CitiesViewController: UICollectionViewController   {
         
         let weatherForecast =  fetchResultsController.object(at: indexPath)
         guard let todayForecast = weatherForecast.getForecastFor(Date()) else {
-            print("No todayForecast for \(String(describing: weatherForecast.city))")
             return cell
         }
         
@@ -125,8 +118,7 @@ class CitiesViewController: UICollectionViewController   {
         
         let weatherForecast =  fetchResultsController.object(at: indexPath)
         guard let todayForecast = weatherForecast.getForecastFor(Date()) else {
-            print("No todayForecast for \(String(describing: weatherForecast.city))")
-            return 
+            return
         }
         let orderedWeather = weatherForecast.getWeatherOrdered()
         let indexOfTodaysWeather = orderedWeather?.firstIndex(of: todayForecast)
@@ -142,7 +134,6 @@ class CitiesViewController: UICollectionViewController   {
         vc.indexOfSelectedCell = indexOfTodaysWeather ?? 0
         vc.weatherForecast = vc.fetchWeatherFor(selectedCityName!)
         navigationController?.pushViewController(vc, animated: true)
-        
         
     }
     
@@ -208,14 +199,12 @@ extension CitiesViewController: JSONWeatherParsingProtocol, ConvertToNSManagedOb
         getWeatherJSON(url: Settings.shared.WEATHER_FORECAST_URL, parameters: params) { (json) -> (Void) in
             
             guard let cityName = self.getCityName(json) else {
-                print("Cannot get city name from json")
                 return
             }
             
             print(json)
             let listWithForecasts = self.getJSONObjList(json)
             let separetedFor5DaysList = self.getSeparateForecastListFrom(listWithForecasts)
-            print("separeted is \(separetedFor5DaysList)")
             let rawWeatherDataList = self.getRawWeatherDataFrom(separetedFor5DaysList)
             let forecast = self.getForecast(rawWeatherDataList, for: cityName).ordered()
             
@@ -255,7 +244,6 @@ extension CitiesViewController: CityDetailViewControllerDelegate {
         
         do {
             try self.dataController.viewContext.save()
-            print("delete tapped, context saved")
         } catch let error as NSError {
             print("Saving error: \(error), description: \(error.userInfo)")
         }
@@ -283,7 +271,6 @@ extension CitiesViewController: CLLocationManagerDelegate {
         let location = locations[locations.count - 1]
         if location.horizontalAccuracy > 0 {
             self.locationManager?.stopUpdatingLocation()
-            print("longitude = \(location.coordinate.longitude), latitude = \(location.coordinate.latitude)")
             
             let vc = storyboard?.instantiateViewController(withIdentifier: "CityDetailWeather") as! CityDetailViewController
             vc.delegate = self
