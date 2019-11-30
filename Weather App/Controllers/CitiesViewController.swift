@@ -113,7 +113,7 @@ class CitiesViewController: UICollectionViewController   {
         return cell
     }
     
-    
+    // MARK: UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let weatherForecast =  fetchResultsController.object(at: indexPath)
@@ -281,6 +281,8 @@ extension CitiesViewController: CLLocationManagerDelegate {
             vc.getDetailWeather(["lat": lat, "lon": lon])
             vc.isPlusMode = true
             vc.navigationItem.rightBarButtonItem?.image = UIImage(imageLiteralResourceName: "plus_icon")
+//            vc.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+//            vc.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "add")
             navigationController?.pushViewController(vc, animated: true)
             
         }
